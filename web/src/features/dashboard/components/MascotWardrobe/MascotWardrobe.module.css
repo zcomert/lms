@@ -1,0 +1,79 @@
+.layout {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-xl);
+  background-image: linear-gradient(to bottom, var(--color-primary-container), var(--color-brand-navy-deep));
+  align-self: start;
+}
+
+.balance {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.close { display: none; color: var(--color-on-primary); }
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.error {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-default);
+  background-color: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+.group { display: flex; flex-direction: column; gap: var(--space-xs); }
+.groupTitle { margin: 0; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.worn { border-color: var(--color-secondary); background-color: var(--color-cyan-accent-soft); }
+.locked { background-color: var(--color-surface-container-low); }
+
+.info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.info p { margin: 0; }
+.action { flex-shrink: 0; }
+.buy { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.reason { display: inline-flex; align-items: center; gap: var(--space-xs); text-align: right; }
+
+@media (max-width: 767px) {
+  .layout { grid-template-columns: 1fr; }
+  .close { display: inline-flex; }
+  .item { flex-direction: column; align-items: stretch; }
+  .action, .buy { align-items: stretch; }
+  .reason { text-align: left; }
+}

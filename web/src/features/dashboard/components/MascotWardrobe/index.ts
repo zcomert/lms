@@ -1,0 +1,1 @@
+export { MascotWardrobe } from './MascotWardrobe';

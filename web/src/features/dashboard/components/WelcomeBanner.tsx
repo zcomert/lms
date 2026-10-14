@@ -1,6 +1,6 @@
 import { Badge, Text } from '../../../components';
 import type { ActivityDay, TermInfo } from '../../../types';
-import { StreakWidget } from './StreakWidget';
+import { StreakWidget, type StreakMascotProps } from './StreakWidget';
 import styles from './WelcomeBanner.module.css';
 
 interface WelcomeBannerProps {
@@ -8,9 +8,10 @@ interface WelcomeBannerProps {
   summary: string;
   term: TermInfo;
   activity: ActivityDay[];
+  mascot?: StreakMascotProps;
 }
 
-export function WelcomeBanner({ greeting, summary, term, activity }: WelcomeBannerProps) {
+export function WelcomeBanner({ greeting, summary, term, activity, mascot }: WelcomeBannerProps) {
   return (
     <section className={styles.banner} aria-labelledby="welcome-heading">
       <span className={styles.orbOne} aria-hidden="true" />
@@ -22,7 +23,7 @@ export function WelcomeBanner({ greeting, summary, term, activity }: WelcomeBann
             {term.label}
           </Badge>
           <Badge variant="glass" tone="warning" icon="local_fire_department" iconFilled>
-            {term.streakDays} Günlük Seri!
+            {mascot?.state?.streakDays ?? term.streakDays} Günlük Seri!
           </Badge>
         </div>
 
@@ -35,7 +36,7 @@ export function WelcomeBanner({ greeting, summary, term, activity }: WelcomeBann
         </Text>
       </div>
 
-      <StreakWidget term={term} activity={activity} />
+      <StreakWidget term={term} activity={activity} mascot={mascot} />
     </section>
   );
 }

@@ -1,6 +1,7 @@
 .widget {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: var(--space-md);
   padding: var(--space-md);
   border-radius: var(--radius-xl);
@@ -55,3 +56,41 @@
 .pending { background-color: var(--color-glass-faint); }
 
 .todayNote { opacity: 0.85; }
+
+.mascotBox {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.mascotInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  max-width: 14rem;
+  min-width: 0;
+}
+
+.speech,
+.points { margin: 0; }
+
+.points {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.live {
+  flex-basis: 100%;
+  font-size: 0.875rem;
+  color: var(--color-tertiary-fixed-dim);
+}
+
+.live:empty { display: none; }
+
+@media (max-width: 767px) {
+  .widget { max-width: 100%; }
+}

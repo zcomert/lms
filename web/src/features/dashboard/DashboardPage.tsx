@@ -3,6 +3,7 @@ import { useDashboardData } from '../../data/useDashboardData';
 import { useCurrentUser } from '../../data/useCurrentUser';
 import { useCourses } from '../courses/useCourses';
 import { useStudyActivity } from './useStudyActivity';
+import { useMascot } from './useMascot';
 import { useMyGrades } from './useMyGrades';
 import { useAnnouncements } from '../announcements/useAnnouncements';
 import { formatRelative, sourceLabel } from '../announcements/announcementMeta';
@@ -61,6 +62,7 @@ export function DashboardPage() {
   const { user } = useCurrentUser();
   const { courses, loading: coursesLoading, error: coursesError } = useCourses();
   const study = useStudyActivity();
+  const mascot = useMascot();
   const myGrades = useMyGrades();
   const feed = useAnnouncements({ limit: 3 });
   const greeting = user ? `Hoş geldin, ${user.name} 👋` : 'Hoş geldin 👋';
@@ -125,6 +127,17 @@ export function DashboardPage() {
         summary={data.weeklyGoalSummary}
         term={term}
         activity={study.activity}
+        mascot={{
+          state: mascot.state,
+          loading: mascot.loading,
+          error: mascot.error,
+          actionError: mascot.actionError,
+          busy: mascot.busy,
+          lastCheckin: mascot.lastCheckin,
+          onPurchase: (id) => void mascot.purchase(id),
+          onToggleEquipped: (id, equipped) => void mascot.setEquipped(id, equipped),
+          onWardrobeClose: mascot.clearActionError,
+        }}
       />
 
       <KpiGrid metrics={kpis} />
