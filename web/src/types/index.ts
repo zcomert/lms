@@ -244,6 +244,15 @@ export interface LessonFeedback {
   mine: MyLessonFeedback;
 }
 
+/** Ders yorumu (GET /api/v1/lessons/:id/comments). */
+export interface LessonComment {
+  id: string;
+  body: string;
+  createdAt: string;
+  author: { id: string; name: string };
+  canDelete: boolean;
+}
+
 /** Takvim etkinliği türü; renk ve simge bu türe göre seçilir. */
 export type CalendarEventType = 'lecture' | 'lab' | 'exam' | 'deadline' | 'holiday' | 'event';
 
@@ -452,4 +461,40 @@ export interface MyExam {
   passingScore: number | null;
   questionCount: number;
   availability: ExamAvailability;
+}
+
+/** Maskot eşya yuvaları (CONTRACT: Maskot, Puan ve Günlük Giriş). */
+export type MascotSlot = 'HAT' | 'GLASSES' | 'NECK' | 'AURA';
+
+export interface MascotItemView {
+  id: string;
+  slot: MascotSlot;
+  name: string;
+  description: string;
+  price: number;
+  minStreak: number;
+  owned: boolean;
+  equipped: boolean;
+  /** streak < minStreak && !owned */
+  locked: boolean;
+}
+
+export interface MascotState {
+  points: number;
+  streakDays: number;
+  checkedInToday: boolean;
+  /** Bugünkü check-in + bonus toplamı; yoksa 0. */
+  todayAward: number;
+  nextCheckinAmount: number;
+  /** slot -> itemId */
+  equipped: Partial<Record<MascotSlot, string>>;
+  items: MascotItemView[];
+}
+
+export interface CheckinResult {
+  /** Bu çağrı yeni puan yazdı mı. */
+  awarded: boolean;
+  amount: number;
+  milestoneBonus: number;
+  state: MascotState;
 }

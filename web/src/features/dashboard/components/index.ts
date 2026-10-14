@@ -5,6 +5,7 @@ export { CourseCard } from './CourseCard';
 export { EnrolledCourses } from './EnrolledCourses';
 export { KpiGrid } from './KpiGrid';
 export { StreakWidget } from './StreakWidget';
+export type { StreakMascotProps } from './StreakWidget';
 export { UpcomingTasks } from './UpcomingTasks';
 export { WeeklyActivityChart } from './WeeklyActivityChart';
 export { WelcomeBanner } from './WelcomeBanner';

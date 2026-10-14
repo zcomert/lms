@@ -5,6 +5,8 @@
  * Europe/Istanbul); böylece "bugün" ve "son 7 gün" hem kayıtta hem raporda aynı takvimi kullanır.
  */
 
+import { prisma } from './prisma.js';
+
 export const ACTIVITY_TIMEZONE = process.env.ACTIVITY_TIMEZONE ?? 'Europe/Istanbul';
 
 /** Tek bir bildirimde kabul edilen en uzun süre; istemci ~60 sn'de bir gönderir, fazlası kırpılır. */
@@ -55,4 +57,13 @@ export function computeStreak(activeDays: Set<string>, today: string): number {
     cursor = addDays(cursor, -1);
   }
   return streak;
+}
+
+/** Kullanıcının seri aralığındaki (son STREAK_LOOKBACK_DAYS gün) aktif günleri; seri tek kaynağı. */
+export async function getStreakDays(userId: string, today: string = dayKey(new Date())): Promise<Set<string>> {
+  const rows = await prisma.studyActivity.groupBy({
+    by: ['day'],
+    where: { userId, day: { gte: addDays(today, -STREAK_LOOKBACK_DAYS), lte: today }, seconds: { gt: 0 } },
+  });
+  return new Set(rows.map((row) => row.day));
 }

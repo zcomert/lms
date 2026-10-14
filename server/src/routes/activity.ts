@@ -8,11 +8,11 @@ import {
   ACTIVITY_TIMEZONE,
   MAX_HEARTBEAT_SECONDS,
   MAX_REPORT_DAYS,
-  STREAK_LOOKBACK_DAYS,
   addDays,
   categoryFor,
   computeStreak,
   dayKey,
+  getStreakDays,
 } from '../lib/activity.js';
 
 interface HeartbeatBody {
@@ -90,7 +90,7 @@ export function registerActivityRoutes(app: FastifyInstance) {
       const rangeStart = addDays(today, -(days - 1));
       const monthStart = `${today.slice(0, 8)}01`;
 
-      const [rangeRows, monthAggregate, activeDayRows] = await Promise.all([
+      const [rangeRows, monthAggregate, activeDays] = await Promise.all([
         prisma.studyActivity.groupBy({
           by: ['day', 'category'],
           where: { userId, day: { gte: rangeStart, lte: today } },
@@ -100,10 +100,7 @@ export function registerActivityRoutes(app: FastifyInstance) {
           where: { userId, day: { gte: monthStart, lte: today } },
           _sum: { seconds: true },
         }),
-        prisma.studyActivity.groupBy({
-          by: ['day'],
-          where: { userId, day: { gte: addDays(today, -STREAK_LOOKBACK_DAYS), lte: today }, seconds: { gt: 0 } },
-        }),
+        getStreakDays(userId, today),
       ]);
 
       const byDay = new Map<string, ActivityDayReport>();
@@ -131,7 +128,7 @@ export function registerActivityRoutes(app: FastifyInstance) {
           rangeSeconds: dayList.reduce((sum, day) => sum + day.totalSeconds, 0),
           monthSeconds: monthAggregate._sum.seconds ?? 0,
         },
-        streakDays: computeStreak(new Set(activeDayRows.map((row) => row.day)), today),
+        streakDays: computeStreak(activeDays, today),
       };
     },
   );

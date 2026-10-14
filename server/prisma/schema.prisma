@@ -36,6 +36,9 @@ model User {
   quizGradesReceived QuizGrade[] @relation("QuizGradesReceived")
   quizGradesGiven    QuizGrade[] @relation("QuizGradesGiven")
   lessonFeedback LessonFeedback[]
+  lessonComments LessonComment[]
+  mascotItems UserMascotItem[]
+  pointTransactions PointTransaction[]
   calendarEventsCreated CalendarEvent[] @relation("CalendarEventsCreated")
   announcementsAuthored Announcement[] @relation("AnnouncementsAuthored")
   questionBanksCreated QuestionBank[] @relation("QuestionBanksCreated")
@@ -86,6 +89,7 @@ model Lesson {
   lessonProgress LessonProgress[]
   quizGrades  QuizGrade[]
   lessonFeedback LessonFeedback[]
+  lessonComments LessonComment[]
 }
 
 /// Ders başına kullanıcı geri bildirimi: beğeni ve/veya 1–5 puan. İkisi de boşsa satır tutulmaz.
@@ -103,6 +107,19 @@ model LessonFeedback {
 
   @@unique([userId, lessonId])
   @@index([lessonId])
+}
+
+/// Ders yorumu: düz liste (yanıt/beğeni yok). Ders veya kullanıcı silinirse yorumlar da silinir.
+model LessonComment {
+  id        String   @id @default(cuid())
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([lessonId, createdAt])
 }
 
 model LessonProgress {
@@ -352,5 +369,49 @@ model ExamCandidate {
   createdAt DateTime @default(now())
 
   @@unique([examId, userId])
+  @@index([userId])
+}
+
+/// Maskot katalog eşyası. id sabit slug'tır (ör. "hat-beret"); katalog migration SQL'i ile seed edilir.
+model MascotItem {
+  id          String  @id
+  /// HAT | GLASSES | NECK | AURA (DB zorlamaz, API doğrular)
+  slot        String
+  name        String
+  description String
+  price       Int
+  /// Satın almak için gereken en düşük seri (gün); 0 ise kilit yok.
+  minStreak   Int     @default(0)
+  sortOrder   Int
+  active      Boolean @default(true)
+  owners      UserMascotItem[]
+}
+
+/// Kullanıcının sahip olduğu maskot eşyası. Slot başına tek giyili eşya kuralını API sağlar.
+model UserMascotItem {
+  id         String     @id @default(cuid())
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  itemId     String
+  item       MascotItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  equipped   Boolean    @default(false)
+  acquiredAt DateTime   @default(now())
+
+  @@unique([userId, itemId])
+}
+
+/// Puan defteri: bakiye amount toplamıdır. (userId, reason, refKey) tekilliği idempotens sağlar.
+model PointTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Kazanım pozitif, satın alma negatif.
+  amount    Int
+  /// DAILY_CHECKIN | STREAK_MILESTONE | PURCHASE
+  reason    String
+  refKey    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reason, refKey])
   @@index([userId])
 }

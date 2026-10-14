@@ -1,0 +1,87 @@
+.mascot {
+  display: block;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.md { width: 5rem; height: 5rem; }
+.lg { width: 12rem; height: 12rem; max-width: 100%; }
+
+.body {
+  transform-origin: 50% 100%;
+  animation: bob 3s ease-in-out infinite;
+}
+
+.excited .body { animation-duration: 1.2s; }
+
+.sparkle { animation: twinkle 2.4s ease-in-out infinite; }
+.flame { transform-origin: 50% 60%; animation: flicker 1.4s ease-in-out infinite; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-2px) scale(1.01, 0.99); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes flicker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .body, .sparkle, .flame { animation: none; }
+}
+
+.bodyFill { fill: var(--color-secondary-container); }
+.wingFill { fill: var(--color-secondary); }
+.bellyFill { fill: var(--color-tertiary-fixed); }
+.beakFill { fill: var(--color-state-warning); }
+.eyeWhite { fill: var(--color-on-primary); }
+.pupil { fill: var(--color-brand-navy-deep); }
+.cheek { fill: var(--color-error-container); }
+
+.stroke {
+  fill: none;
+  stroke: var(--color-brand-navy-deep);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.zzz {
+  fill: var(--color-on-primary);
+  font-family: var(--font-display, inherit);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cyanFill { fill: var(--color-tertiary-fixed-dim); }
+.yellowFill { fill: var(--color-secondary-fixed); }
+.flameRing { fill: none; stroke: var(--color-state-warning); stroke-width: 3; stroke-dasharray: 6 5; opacity: 0.8; }
+.flameFill { fill: var(--color-state-error); }
+
+.scarfFill { fill: var(--color-state-error); }
+.bowFill { fill: var(--color-primary-container); }
+.bowKnot { fill: var(--color-tertiary-fixed-dim); }
+
+.frame {
+  fill: none;
+  stroke: var(--color-brand-navy-deep);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.starLens {
+  fill: rgb(var(--rgb-white) / 0.35);
+  stroke: var(--color-state-warning);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.beretFill { fill: var(--color-state-error); }
+.capFill { fill: var(--color-brand-navy-deep); }
+.tassel { fill: none; stroke: var(--color-state-warning); stroke-width: 2; }
+.tasselDot { fill: var(--color-state-warning); }

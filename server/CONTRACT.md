@@ -371,6 +371,32 @@ Body (kısmi): `{ "liked"?: boolean, "rating"?: integer 1..5 | null }`
 200: yukarıdaki yanıt (yeniden hesaplanmış)
 400/401/403/404: yukarıdaki hata biçimleriyle
 
+## Lesson Comments (Ders yorumları)
+
+Saklama: `LessonComment` tablosu (`id`, `lessonId`, `userId`, `body`, `createdAt`). Düz liste (iç içe yanıt / beğeni yok). Ders veya kullanıcı silinirse yorumlar da silinir. Yalnızca YAYINLANMIŞ dersler; yok veya taslak ders 404 döner.
+Sıralama: her zaman **en yeni önce** (`createdAt` azalan, eşitlikte `id` azalan).
+
+Yorum nesnesi:
+`{ "id": string, "body": string, "createdAt": ISO string, "author": { "id": string, "name": string }, "canDelete": boolean }`
+`canDelete` çağırana göre hesaplanır: yorumun sahibi VEYA dersin kursunu yönetebilen kullanıcı (ADMIN / kursa atanmış aktif INSTRUCTOR).
+
+### GET /api/v1/lessons/:lessonId/comments
+Header: `Authorization: Bearer <token>` (yetki: dersin kursuna kayıtlı kullanıcı VEYA ADMIN / kursa atanmış INSTRUCTOR)
+200: `{ "comments": Comment[] }` (en yeni önce, sayfalama yok)
+401 `UNAUTHORIZED` / 403 `NOT_ENROLLED` / 404 `NOT_FOUND`
+
+### POST /api/v1/lessons/:lessonId/comments
+Header: `Authorization: Bearer <token>` (yetki: GET ile aynı — kayıtlı kullanıcı VEYA ADMIN / kursa atanmış INSTRUCTOR)
+Body: `{ "body": string }` — kırpıldıktan (trim) sonra 1–2000 karakter; aksi halde 400 `VALIDATION_ERROR` ("Yorum 1 ile 2000 karakter arasında olmalıdır."). Kırpılmış metin saklanır.
+201: `{ "comment": Comment }`
+400/401/403/404: yukarıdaki hata biçimleriyle
+
+### DELETE /api/v1/lessons/:lessonId/comments/:commentId
+Header: `Authorization: Bearer <token>` (yetki: yorumun sahibi VEYA ADMIN / kursa atanmış INSTRUCTOR)
+204: gövde yok
+403: `{ "error": { "code": "FORBIDDEN", "message": "Bu yorumu silme yetkiniz yok." } }`
+404: `{ "error": { "code": "NOT_FOUND", "message": "Yorum bulunamadı." } }` (yorum yok veya bu derse ait değil; ders yok/taslak ise "Ders bulunamadı.")
+
 ## Calendar (Akademik takvim)
 
 Saklama: `CalendarEvent` tablosu. `courseId` null ise genel etkinliktir (herkes görür); doluysa kursa aittir. Kurs silinirse etkinlikleri de silinir; oluşturan kullanıcı silinirse `createdById` null olur. `type`: `lecture` | `lab` | `exam` | `deadline` | `holiday` | `event` (varsayılan `event`).
@@ -630,3 +656,53 @@ Body: `{ "questionIds": string[] }`: sınavdaki soruların tamamı, her biri bir
 ### PUT /api/v1/exams/:id/candidates
 Body: `{ "userIds": string[] }`: seçili öğrenci listesini tümüyle değiştirir; hepsi kursa kayıtlı olmalıdır (aksi 400).
 200: GET ile aynı · 409 `EXAM_NOT_PUBLISHABLE` (yayındaki `SELECTED` sınavda boş liste)
+
+## Maskot, Puan ve Günlük Giriş (Mascot / Rewards)
+
+Seri (streak) tek kaynaktır: `lib/activity.ts` `computeStreak` (StudyActivity günleri, ACTIVITY_TIMEZONE). İkinci bir seri hesabı yoktur.
+Bakiye = `PointTransaction.amount` toplamı (defter). İstemci asla tutar göndermez.
+
+### Kurallar
+- Günlük giriş: İstanbul takvim günü başına 1 kez. `amount = 10 + 5 × min(streak, 10)`.
+- Kilometre taşı bonusu (aynı gün, ayrı defter satırı, kullanıcı başına bir kez): seri 3 → +20, 7 → +50, 14 → +100, 30 → +250 (`MILESTONE_<n>`; streak >= n ve daha önce alınmadıysa).
+- İdempotens: `PointTransaction` üzerinde `@@unique([userId, reason, refKey])`. Check-in için `reason="DAILY_CHECKIN", refKey=<YYYY-MM-DD>`; bonus için `reason="STREAK_MILESTONE", refKey="<n>"`; satın alma `reason="PURCHASE", refKey=<itemId>` (amount negatif).
+- Satın alma: tek transaction; bakiye < fiyat → 409 `INSUFFICIENT_POINTS`; zaten sahip → 409 `ALREADY_OWNED`; streak < minStreak → 403 `ITEM_LOCKED`; yok/aktif değil → 404 `NOT_FOUND`.
+- Giydirme: yalnızca sahip olunan eşya (aksi 403 `NOT_OWNED`); slot başına en fazla 1 giyili eşya (aynı slottaki diğerleri otomatik çıkarılır).
+- Slotlar: `HAT | GLASSES | NECK | AURA`.
+
+### Modeller
+- `MascotItem { id (sabit slug, ör. "hat-beret"), slot, name, description, price Int, minStreak Int @default(0), sortOrder Int, active Boolean @default(true) }` — katalog migration SQL'i ile seed edilir.
+- `UserMascotItem { id, userId, itemId, equipped Boolean @default(false), acquiredAt; @@unique([userId,itemId]) }`
+- `PointTransaction { id, userId, amount Int, reason String, refKey String, createdAt; @@unique([userId,reason,refKey]); @@index([userId]) }`
+
+### Tipler
+```ts
+type MascotSlot = 'HAT' | 'GLASSES' | 'NECK' | 'AURA';
+interface MascotItemView { id: string; slot: MascotSlot; name: string; description: string; price: number; minStreak: number; owned: boolean; equipped: boolean; locked: boolean /* streak < minStreak && !owned */ }
+interface MascotState { points: number; streakDays: number; checkedInToday: boolean; todayAward: number /* bugünkü check-in+bonus toplamı, yoksa 0 */; nextCheckinAmount: number; equipped: Partial<Record<MascotSlot, string>> /* slot -> itemId */; items: MascotItemView[] }
+interface CheckinResult { awarded: boolean /* bu çağrı yeni puan yazdı mı */; amount: number /* bu çağrıda eklenen toplam (0 ise tekrar) */; milestoneBonus: number; state: MascotState }
+```
+
+### GET /api/v1/users/me/mascot  (auth)
+200 → `MascotState`.
+
+### POST /api/v1/users/me/mascot/checkin  (auth, gövde yok)
+200 → `CheckinResult`. Aynı gün tekrar çağrılırsa `awarded:false, amount:0`. Eşzamanlı çağrılarda unique ihlali yakalanır ve `awarded:false` döner.
+
+### POST /api/v1/users/me/mascot/items/:itemId/purchase  (auth)
+200 → `MascotState`. Hatalar yukarıda.
+
+### PUT /api/v1/users/me/mascot/equipped  (auth)
+Gövde `{ itemId: string, equipped: boolean }` → 200 `MascotState`. Hatalar: 400 `VALIDATION_ERROR`, 404 `NOT_FOUND`, 403 `NOT_OWNED`.
+
+### Katalog (seed, id → slot, ad, fiyat, minStreak)
+| id | slot | name | price | minStreak |
+|---|---|---|---|---|
+| hat-beret | HAT | Ressam Beresi | 40 | 0 |
+| hat-graduation | HAT | Mezuniyet Kepi | 120 | 7 |
+| glasses-round | GLASSES | Yuvarlak Gözlük | 30 | 0 |
+| glasses-star | GLASSES | Yıldız Gözlük | 80 | 3 |
+| neck-scarf | NECK | Kırmızı Atkı | 35 | 0 |
+| neck-bowtie | NECK | Papyon | 60 | 0 |
+| aura-sparkle | AURA | Parıltı | 90 | 3 |
+| aura-flame | AURA | Ateş Halkası | 200 | 14 |
