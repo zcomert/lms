@@ -23,3 +23,5 @@ export type { DialogSize } from './Dialog';
 export { formStyles } from './Form';
 export { ThemeSelector } from './ThemeSelector';
 export { ConfirmDialog } from './ConfirmDialog';
+export { RichText, stripMarkdown } from './RichText';
+export { RichTextEditor } from './RichTextEditor';

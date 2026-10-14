@@ -37,6 +37,14 @@ describe('announcement helpers', () => {
     ).toThrow();
   });
 
+  it('keeps markdown structure and rejects tag-like bodies', () => {
+    const md = '## Başlık\n\n- **a**\n- [b](https://x.y)';
+    expect(normalizeAnnouncementInput({ title: 't', body: md }, now).body).toBe(md);
+    expect(normalizeAnnouncementInput({ title: 't', body: 'a < b' }, now).body).toBe('a < b');
+    expect(() => normalizeAnnouncementInput({ title: 't', body: '<script>x</script>' }, now)).toThrow();
+    expect(() => normalizeAnnouncementInput({ title: 't', body: 'a </b> c' }, now)).toThrow();
+  });
+
   it('derives lifecycle state', () => {
     const at = (offsetHours: number) => new Date(now.getTime() + offsetHours * HOUR);
     expect(announcementState({ status: 'DRAFT', publishAt: at(-1), expiresAt: null }, now)).toBe('DRAFT');
@@ -246,6 +254,25 @@ describe('announcement routes', () => {
       expect((await post(adminToken, { title: 'x', body: 'y', category: 'NOPE' })).statusCode).toBe(400);
       expect((await post(adminToken, { title: 'x', body: 'y', publishAt: '2026-10-14T09:00' })).statusCode).toBe(400);
       expect((await post(adminToken, { title: 'x', body: 'y', courseId: 'yok' })).statusCode).toBe(404);
+    });
+
+    it('round-trips a markdown body unchanged', async () => {
+      const body = '## Başlık\n\nBu **kalın** ve *italik*.\n\n- bir\n- iki\n\n1. a\n2. b\n\n> alıntı\n\n[bağlantı](https://example.com)';
+      const res = await post(adminToken, { title: 'MD', body, status: 'PUBLISHED' });
+      expect(res.statusCode).toBe(201);
+      expect(res.json().announcement.body).toBe(body);
+      const detail = await get(studentToken, res.json().announcement.id);
+      expect(detail.json().announcement.body).toBe(body);
+    });
+
+    it('rejects raw HTML in the body but accepts plain text', async () => {
+      for (const body of ['<script>alert(1)</script>', 'x <iframe src="a"></iframe>', '<img src=x onerror=alert(1)>']) {
+        const res = await post(adminToken, { title: 'x', body });
+        expect(res.statusCode).toBe(400);
+        expect(res.json().error.code).toBe('VALIDATION_ERROR');
+      }
+      expect((await post(adminToken, { title: 'x', body: 'a < b ve c > d' })).statusCode).toBe(201);
+      expect((await post(adminToken, { title: 'x', body: 'Eski düz metin.\n\nİkinci paragraf.' })).statusCode).toBe(201);
     });
 
     it('enforces write targets', async () => {

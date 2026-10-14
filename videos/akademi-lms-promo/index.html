@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #071634; }
+      #root {
+        position: relative; width: 100%; height: 100%; overflow: hidden;
+        font-family: ui-sans-serif, "Segoe UI", system-ui, sans-serif; color: #fff;
+        background: linear-gradient(135deg, #071634 0%, #0b2a5c 55%, #006398 130%);
+      }
+      .scene { position: absolute; inset: 0; }
+      .glow { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .35; }
+      .eyebrow { font-size: 30px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #5fd3f3; }
+      .h1 { font-size: 132px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; }
+      .h2 { font-size: 72px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; }
+      .sub { font-size: 38px; font-weight: 500; color: #c3d6f2; line-height: 1.35; }
+      .center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 28px; }
+      .browser {
+        position: absolute; left: 160px; top: 150px; width: 1600px; height: 900px;
+        border-radius: 22px; overflow: hidden; background: #fff;
+        box-shadow: 0 50px 120px rgba(0,0,0,.55), 0 0 0 2px rgba(255,255,255,.12);
+      }
+      .bar { position: absolute; left: 0; top: 0; right: 0; height: 52px; background: #e9eef6; display: flex; align-items: center; gap: 12px; padding: 0 22px; z-index: 3; }
+      .dot { width: 16px; height: 16px; border-radius: 50%; background: #c9d3e3; }
+      .url { margin-left: 22px; height: 30px; width: 520px; border-radius: 15px; background: #fff; color: #5a6b86; font-size: 17px; line-height: 30px; padding: 0 16px; }
+      .shot-wrap { position: absolute; left: 0; top: 52px; width: 1600px; height: 848px; overflow: hidden; }
+      .shot { position: absolute; left: 0; top: 0; width: 1600px; height: 900px; transform-origin: 30% 20%; display: block; }
+      .tag {
+        position: absolute; left: 160px; top: 40px; display: flex; align-items: baseline; gap: 22px;
+      }
+      .tag .h2 { font-size: 64px; }
+      .chip { display: inline-block; padding: 16px 30px; border-radius: 999px; font-size: 32px; font-weight: 700; background: rgba(255,255,255,.1); border: 2px solid rgba(95,211,243,.5); }
+      .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; max-width: 1400px; }
+      .logo { width: 150px; height: 150px; object-fit: contain; border-radius: 28px; background: #fff; padding: 14px; }
+      .badge { position: absolute; right: 140px; bottom: 36px; font-size: 30px; font-weight: 700; padding: 14px 28px; border-radius: 16px; background: #5fd3f3; color: #071634; }
+      #demo { position: absolute; left: 0; top: -110px; width: 1600px; height: 900px; object-fit: cover; }
+    </style>
+  </head>
+  <body>
+    <div data-hf-id="hf-dqd3" id="root" data-composition-id="main" data-start="0" data-duration="41" data-width="1920" data-height="1080">
+
+      <!-- 1: Açılış -->
+      <div data-hf-id="hf-q0fc" id="s1" class="scene clip center" data-start="0" data-duration="4.5" data-track-index="0">
+        <div data-hf-id="hf-ttbo" class="glow" style="width:700px;height:700px;left:-120px;top:-160px;background:#5fd3f3"></div>
+        <div data-hf-id="hf-viwi" class="glow" style="width:600px;height:600px;right:-100px;bottom:-140px;background:#006398"></div>
+        <img data-hf-id="hf-4ixv" id="s1-logo" class="logo" src="assets/logo.png" alt="Akademi LMS logosu" />
+        <div data-hf-id="hf-i8g6" id="s1-eyebrow" class="eyebrow">BTK Akademi</div>
+        <div data-hf-id="hf-cpn0" id="s1-title" class="h1">Akademi LMS</div>
+        <div data-hf-id="hf-1f27" id="s1-sub" class="sub">Öğrenmenin tek çatı altındaki yeni adresi</div>
+      </div>
+
+      <!-- 2: Genel bakış -->
+      <div data-hf-id="hf-6gjx" id="s2" class="scene clip" data-start="4" data-duration="5.5" data-track-index="0">
+        <div data-hf-id="hf-og20" class="tag"><div data-hf-id="hf-03ry" id="s2-t" class="h2">Her şey tek ekranda</div></div>
+        <div data-hf-id="hf-z3tk" id="s2-b" class="browser"><div data-hf-id="hf-ufsv" class="bar"><span data-hf-id="hf-9gry" class="dot"></span><span data-hf-id="hf-zcc2" class="dot"></span><span data-hf-id="hf-zqn3" class="dot"></span><span data-hf-id="hf-a1jq" class="url">akademi-lms / genel-bakis</span></div>
+          <div data-hf-id="hf-7n2l" class="shot-wrap"><img data-hf-id="hf-fcp7" id="s2-img" class="shot" src="assets/01-dashboard.png" alt="Genel Bakış paneli" /></div></div>
+        <div data-hf-id="hf-9uiu" id="s2-badge" class="badge">İlerleme · Görevler · Yapay zekâ rehberi</div>
+      </div>
+
+      <!-- 3: Kurslar -->
+      <div data-hf-id="hf-5h8z" id="s3" class="scene clip" data-start="9" data-duration="5.5" data-track-index="0">
+        <div data-hf-id="hf-oqm8" class="tag"><div data-hf-id="hf-7cod" id="s3-t" class="h2">Kurslar ve dersler</div></div>
+        <div data-hf-id="hf-rvet" id="s3-b" class="browser"><div data-hf-id="hf-c51b" class="bar"><span data-hf-id="hf-04y4" class="dot"></span><span data-hf-id="hf-0j95" class="dot"></span><span data-hf-id="hf-0xk6" class="dot"></span><span data-hf-id="hf-c3hq" class="url">akademi-lms / kurslarim</span></div>
+          <div data-hf-id="hf-86o1" class="shot-wrap"><img data-hf-id="hf-icgl" id="s3-img" class="shot" src="assets/02-courses.png" alt="Kurslarım sayfası" /></div></div>
+        <div data-hf-id="hf-45gn" id="s3-badge" class="badge">Kaldığın yerden devam et</div>
+      </div>
+
+      <!-- 4: Takvim -->
+      <div data-hf-id="hf-m4qi" id="s4" class="scene clip" data-start="14" data-duration="5.5" data-track-index="0">
+        <div data-hf-id="hf-njp5" class="tag"><div data-hf-id="hf-hgmb" id="s4-t" class="h2">Akademik takvim</div></div>
+        <div data-hf-id="hf-tci2" id="s4-b" class="browser"><div data-hf-id="hf-bqqa" class="bar"><span data-hf-id="hf-1bv7" class="dot"></span><span data-hf-id="hf-1q68" class="dot"></span><span data-hf-id="hf-vrkt" class="dot"></span><span data-hf-id="hf-2sgm" class="url">akademi-lms / takvim</span></div>
+          <div data-hf-id="hf-9dl4" class="shot-wrap"><img data-hf-id="hf-t807" id="s4-img" class="shot" src="assets/04-calendar.png" alt="Akademik takvim" /></div></div>
+        <div data-hf-id="hf-jo2o" id="s4-badge" class="badge">Canlı ders · Sınav · Son teslim</div>
+      </div>
+
+      <!-- 6: Sınavlar -->
+      <div data-hf-id="hf-zzdv" id="s6" class="scene clip" data-start="19" data-duration="5.5" data-track-index="0">
+        <div data-hf-id="hf-ny06" class="tag"><div data-hf-id="hf-zvir" id="s6-t" class="h2">Çevrim içi sınavlar</div></div>
+        <div data-hf-id="hf-mw1g" id="s6-b" class="browser"><div data-hf-id="hf-bcf9" class="bar"><span data-hf-id="hf-w5vu" class="dot"></span><span data-hf-id="hf-mnty" class="dot"></span><span data-hf-id="hf-m9ix" class="dot"></span><span data-hf-id="hf-pdo2" class="url">akademi-lms / sinavlar</span></div>
+          <div data-hf-id="hf-8za3" class="shot-wrap"><img data-hf-id="hf-lpqo" id="s6-img" class="shot" src="assets/06-exams.png" alt="Sınavlar sayfası" /></div></div>
+        <div data-hf-id="hf-3m8u" id="s6-badge" class="badge">Süreli, otomatik değerlendirme</div>
+      </div>
+
+      <!-- 7: Canlı demo (kullanıcı kaydı) -->
+      <div data-hf-id="hf-fv2m" id="s7" class="scene clip" data-start="24" data-duration="9.5" data-track-index="0">
+        <div data-hf-id="hf-mr33" class="tag"><div data-hf-id="hf-rxix" id="s7-t" class="h2">Çalışırken görün</div></div>
+        <div data-hf-id="hf-fttk" id="s7-b" class="browser" style="top:240px;height:810px;border-radius:22px"></div>
+      </div>
+      <div id="demo-crop" style="position:absolute;left:160px;top:240px;width:1600px;height:810px;overflow:hidden;border-radius:22px"><video data-hf-id="hf-t4x3" id="demo" class="clip" src="assets/demo.mp4" muted playsinline data-start="24.4" data-duration="8.7" data-media-start="2" data-track-index="2"></video></div>
+
+      <!-- 8: Kapanış -->
+      <div data-hf-id="hf-va3m" id="s8" class="scene clip center" data-start="33" data-duration="8" data-track-index="0">
+        <div data-hf-id="hf-n7ab" class="glow" style="width:700px;height:700px;right:-120px;top:-160px;background:#5fd3f3"></div>
+        <img data-hf-id="hf-sao0" id="s8-logo" class="logo" src="assets/logo.png" alt="Akademi LMS logosu" />
+        <div data-hf-id="hf-cg9i" id="s8-title" class="h1" style="font-size:104px">Öğren. Takip et. Başar.</div>
+        <div data-hf-id="hf-5n38" id="s8-chips" class="chips">
+          <span data-hf-id="hf-trx3" class="chip">Kurslar</span><span data-hf-id="hf-mboa" class="chip">Duyurular</span><span data-hf-id="hf-6ewz" class="chip">Takvim</span>
+          <span data-hf-id="hf-pzgt" class="chip">Ödevler</span><span data-hf-id="hf-ifbj" class="chip">Sınavlar</span><span data-hf-id="hf-0t60" class="chip">Yapay zekâ rehberi</span>
+        </div>
+        <div data-hf-id="hf-r5q7" id="s8-sub" class="sub">Akademi LMS · BTK Akademi Öğrenci Portalı</div>
+      </div>
+    </div>
+
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      const ease = "power3.out";
+      // 1
+      tl.from("#s1-logo", { scale: 0.6, opacity: 0, duration: 0.8, ease: "back.out(1.6)" }, 0.2);
+      tl.from("#s1-eyebrow", { y: 20, opacity: 0, duration: 0.6, ease }, 0.7);
+      tl.from("#s1-title", { y: 40, opacity: 0, duration: 0.8, ease }, 0.9);
+      tl.from("#s1-sub", { y: 24, opacity: 0, duration: 0.7, ease }, 1.5);
+      tl.to("#s1", { opacity: 0, duration: 0.5 }, 4.0);
+
+      // 2–6 ekran görüntüsü sahneleri
+      [["s2", 4, 1.0, 0.0], ["s3", 9, 1.0, 0.0], ["s4", 14, 1.0, 0.0], ["s6", 19, 1.0, 0.0]].forEach(([id, t]) => {
+        tl.from(`#${id}`, { opacity: 0, duration: 0.5 }, t);
+        tl.from(`#${id}-t`, { x: -40, opacity: 0, duration: 0.7, ease }, t + 0.15);
+        tl.from(`#${id}-b`, { y: 70, opacity: 0, scale: 0.96, duration: 0.9, ease }, t + 0.2);
+        tl.fromTo(`#${id}-img`, { scale: 1 }, { scale: 1.1, duration: 5.2, ease: "none" }, t + 0.3);
+        tl.from(`#${id}-badge`, { y: 30, opacity: 0, duration: 0.6, ease }, t + 1.4);
+        tl.to(`#${id}`, { opacity: 0, duration: 0.5 }, t + 5.0);
+      });
+
+      // 7 demo
+      tl.from("#s7", { opacity: 0, duration: 0.5 }, 24);
+      tl.from("#s7-t", { x: -40, opacity: 0, duration: 0.7, ease }, 24.15);
+      tl.from("#s7-b", { y: 70, opacity: 0, duration: 0.8, ease }, 24.2);
+      tl.to("#s7", { opacity: 0, duration: 0.5 }, 33.0);
+      tl.to("#demo-crop", { opacity: 0, duration: 0.5 }, 32.6);
+
+      // 8
+      tl.from("#s8", { opacity: 0, duration: 0.6 }, 33);
+      tl.from("#s8-logo", { scale: 0.6, opacity: 0, duration: 0.8, ease: "back.out(1.6)" }, 33.3);
+      tl.from("#s8-title", { y: 40, opacity: 0, duration: 0.8, ease }, 33.8);
+      tl.from(".chip", { y: 24, opacity: 0, duration: 0.5, ease, stagger: 0.12 }, 34.8);
+      tl.from("#s8-sub", { y: 20, opacity: 0, duration: 0.7, ease }, 36.2);
+
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

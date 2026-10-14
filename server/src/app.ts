@@ -25,9 +25,10 @@ import { registerAssignmentRoutes } from './routes/assignments.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerAdminUserRoutes } from './routes/adminUsers.js';
 import { registerNavItemRoutes } from './routes/nav-items.js';
+import { createLogStream } from './lib/logStream.js';
 
 export async function buildApp(): Promise<FastifyInstance> {
-  const app = Fastify({ logger: true });
+  const app = Fastify({ logger: { stream: createLogStream() } });
   app.setErrorHandler(errorHandler);
   app.setNotFoundHandler((request, reply) => {
     reply.status(404).send({ error: { code: 'NOT_FOUND', message: 'Kaynak bulunamadı.' } });

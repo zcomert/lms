@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Badge, Card, Icon, Text } from '../../components';
+import { Badge, Card, Icon, Text, stripMarkdown } from '../../components';
 import { PageContainer } from '../../layout/PageContainer';
 import { useCurrentUser } from '../../data/useCurrentUser';
 import type { AnnouncementCategory } from '../../types';
@@ -103,7 +103,7 @@ export function AnnouncementsPage() {
                     </span>
 
                     <Text role="body-md" tone="muted" as="p" className={styles.excerpt}>
-                      {ann.body}
+                      {stripMarkdown(ann.body)}
                     </Text>
 
                     <Text role="body-sm" tone="muted">

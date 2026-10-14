@@ -1,0 +1,783 @@
+{
+  "ok": true,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 10,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "duplicate_media_discovery_risk",
+        "severity": "warning",
+        "message": "Detected 2 matching img entries with the same source/start/duration.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Avoid duplicated media nodes that can be discovered twice during compilation."
+      },
+      {
+        "code": "timeline_track_too_dense",
+        "severity": "warning",
+        "message": "Track 0 has 8 timed elements in this HTML file. Smaller sub-compositions keep timelines easier to read, iterate on, and diff.",
+        "selector": "[data-composition-id]",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move coherent scene groups into separate .html files under compositions/ and mount them from the parent with data-composition-src so the timeline stays easier to inspect, revise, and validate."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s1\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s1",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s1\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s2\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s2",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s2\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s3\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s3",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s3\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s4\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s4",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s4\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s5\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s5",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s5\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s6\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s6",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s6\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s7\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s7",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s7\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      },
+      {
+        "code": "nested_structure_needs_subcomposition",
+        "severity": "warning",
+        "message": "<div id=\"s8\"> is a timeline element that contains nested <div>. The timeline shows one row per top-level element, and the root composition is built only from sub-compositions.",
+        "selector": "#s8",
+        "dataAttributes": {},
+        "sourceFile": "D:\\programs\\lms\\videos\\akademi-lms-promo\\index.html",
+        "bbox": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0
+        },
+        "time": 0,
+        "fixHint": "Move <div id=\"s8\"> and its contents into a sub-composition file and mount it with data-composition-src."
+      }
+    ],
+    "filesScanned": 1
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 1,
+    "infoCount": 12,
+    "findings": [
+      {
+        "code": "panel_out_of_canvas",
+        "severity": "warning",
+        "time": 38.333,
+        "selector": "#s8 > div:nth-of-type(1)",
+        "message": "Painted panel extends outside the composition canvas.",
+        "rect": {
+          "left": 1340,
+          "top": -160,
+          "right": 2040,
+          "bottom": 540,
+          "width": 700,
+          "height": 700
+        },
+        "containerSelector": "#root",
+        "text": "",
+        "fixHint": "Move the panel inward, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 120,
+          "top": 160
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1340,
+          "y": -160,
+          "width": 700,
+          "height": 700
+        },
+        "firstSeen": 38.333,
+        "lastSeen": 43.444,
+        "occurrences": 2,
+        "heldMs": 0,
+        "times": [
+          38.333,
+          43.444
+        ]
+      },
+      {
+        "code": "panel_out_of_canvas",
+        "severity": "info",
+        "time": 2.556,
+        "selector": "#s1 > div:nth-of-type(1)",
+        "message": "Painted panel extends outside the composition canvas.",
+        "rect": {
+          "left": -120,
+          "top": -160,
+          "right": 580,
+          "bottom": 540,
+          "width": 700,
+          "height": 700
+        },
+        "containerSelector": "#root",
+        "text": "",
+        "fixHint": "Move the panel inward, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "left": 120,
+          "top": 160
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": -120,
+          "y": -160,
+          "width": 700,
+          "height": 700
+        },
+        "firstSeen": 2.556,
+        "lastSeen": 2.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          2.556
+        ]
+      },
+      {
+        "code": "panel_out_of_canvas",
+        "severity": "info",
+        "time": 2.556,
+        "selector": "#s1 > div:nth-of-type(2)",
+        "message": "Painted panel extends outside the composition canvas.",
+        "rect": {
+          "left": 1420,
+          "top": 620,
+          "right": 2020,
+          "bottom": 1220,
+          "width": 600,
+          "height": 600
+        },
+        "containerSelector": "#root",
+        "text": "",
+        "fixHint": "Move the panel inward, or mark intentional off-canvas animation with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 0,
+          "top": 0,
+          "right": 1920,
+          "bottom": 1080,
+          "width": 1920,
+          "height": 1080
+        },
+        "overflow": {
+          "right": 100,
+          "bottom": 140
+        },
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 1420,
+          "y": 620,
+          "width": 600,
+          "height": 600
+        },
+        "firstSeen": 2.556,
+        "lastSeen": 2.556,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          2.556
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 7.667,
+        "selector": "#s2-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 128.94,
+          "top": 190.35,
+          "right": 1832.46,
+          "bottom": 1148.58,
+          "width": 1703.52,
+          "height": 958.23
+        },
+        "containerSelector": "#s2-b > div:nth-of-type(2)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 160,
+          "top": 202,
+          "right": 1760,
+          "bottom": 1050,
+          "width": 1600,
+          "height": 848
+        },
+        "overflow": {
+          "left": 31.06,
+          "right": 72.46,
+          "top": 11.65,
+          "bottom": 98.58
+        },
+        "dataAttributes": {
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 128.94,
+          "y": 190.35,
+          "width": 1703.52,
+          "height": 958.23
+        },
+        "firstSeen": 7.667,
+        "lastSeen": 7.667,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          7.667
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 9.25,
+        "selector": "#s2-t",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 160,
+          "top": 36,
+          "right": 710.58,
+          "bottom": 113,
+          "width": 550.58,
+          "height": 77
+        },
+        "containerSelector": "#s3-t",
+        "text": "Her şey tek ekranda",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 160,
+          "y": 36,
+          "width": 550.58,
+          "height": 77
+        },
+        "firstSeen": 9.25,
+        "lastSeen": 9.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          9.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 12.778,
+        "selector": "#s3-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 127.98,
+          "top": 189.99,
+          "right": 1834.7,
+          "bottom": 1150.02,
+          "width": 1706.72,
+          "height": 960.03
+        },
+        "containerSelector": "#s3-b > div:nth-of-type(2)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 160,
+          "top": 202,
+          "right": 1760,
+          "bottom": 1050,
+          "width": 1600,
+          "height": 848
+        },
+        "overflow": {
+          "left": 32.02,
+          "right": 74.7,
+          "top": 12.01,
+          "bottom": 100.02
+        },
+        "dataAttributes": {
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 127.98,
+          "y": 189.99,
+          "width": 1706.72,
+          "height": 960.03
+        },
+        "firstSeen": 12.778,
+        "lastSeen": 12.778,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          12.778
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 14.25,
+        "selector": "#s3-t",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 160,
+          "top": 36,
+          "right": 647.16,
+          "bottom": 113,
+          "width": 487.16,
+          "height": 77
+        },
+        "containerSelector": "#s4-t",
+        "text": "Kurslar ve dersler",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 160,
+          "y": 36,
+          "width": 487.16,
+          "height": 77
+        },
+        "firstSeen": 14.25,
+        "lastSeen": 14.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          14.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 17.889,
+        "selector": "#s4-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 127.07,
+          "top": 189.65,
+          "right": 1836.83,
+          "bottom": 1151.39,
+          "width": 1709.76,
+          "height": 961.74
+        },
+        "containerSelector": "#s4-b > div:nth-of-type(2)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 160,
+          "top": 202,
+          "right": 1760,
+          "bottom": 1050,
+          "width": 1600,
+          "height": 848
+        },
+        "overflow": {
+          "left": 32.93,
+          "right": 76.83,
+          "top": 12.35,
+          "bottom": 101.39
+        },
+        "dataAttributes": {
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 127.07,
+          "y": 189.65,
+          "width": 1709.76,
+          "height": 961.74
+        },
+        "firstSeen": 17.889,
+        "lastSeen": 17.889,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          17.889
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 19.25,
+        "selector": "#s4-t",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 160,
+          "top": 36,
+          "right": 642.47,
+          "bottom": 113,
+          "width": 482.47,
+          "height": 77
+        },
+        "containerSelector": "#s5-t",
+        "text": "Akademik takvim",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 160,
+          "y": 36,
+          "width": 482.47,
+          "height": 77
+        },
+        "firstSeen": 19.25,
+        "lastSeen": 19.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          19.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 23,
+        "selector": "#s5-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 125.82,
+          "top": 189.18,
+          "right": 1839.74,
+          "bottom": 1153.26,
+          "width": 1713.92,
+          "height": 964.08
+        },
+        "containerSelector": "#s5-b > div:nth-of-type(2)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 160,
+          "top": 202,
+          "right": 1760,
+          "bottom": 1050,
+          "width": 1600,
+          "height": 848
+        },
+        "overflow": {
+          "left": 34.18,
+          "right": 79.74,
+          "top": 12.82,
+          "bottom": 103.26
+        },
+        "dataAttributes": {
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 125.82,
+          "y": 189.18,
+          "width": 1713.92,
+          "height": 964.08
+        },
+        "firstSeen": 23,
+        "lastSeen": 23,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          23
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 24.25,
+        "selector": "#s5-t",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 160,
+          "top": 36,
+          "right": 629.34,
+          "bottom": 113,
+          "width": 469.34,
+          "height": 77
+        },
+        "containerSelector": "#s6-t",
+        "text": "Ödevler ve notlar",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 160,
+          "y": 36,
+          "width": 469.34,
+          "height": 77
+        },
+        "firstSeen": 24.25,
+        "lastSeen": 24.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          24.25
+        ]
+      },
+      {
+        "code": "container_overflow",
+        "severity": "info",
+        "time": 28.111,
+        "selector": "#s6-img",
+        "message": "Element extends outside a clipping layout container.",
+        "rect": {
+          "left": 124.91,
+          "top": 188.84,
+          "right": 1841.87,
+          "bottom": 1154.63,
+          "width": 1716.96,
+          "height": 965.79
+        },
+        "containerSelector": "#s6-b > div:nth-of-type(2)",
+        "fixHint": "Resize/reposition the child or container, or mark intentional overflow with data-layout-allow-overflow.",
+        "containerRect": {
+          "left": 160,
+          "top": 202,
+          "right": 1760,
+          "bottom": 1050,
+          "width": 1600,
+          "height": 848
+        },
+        "overflow": {
+          "left": 35.09,
+          "right": 81.87,
+          "top": 13.16,
+          "bottom": 104.63
+        },
+        "dataAttributes": {
+          "data-hf-authored-opacity": ""
+        },
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 124.91,
+          "y": 188.84,
+          "width": 1716.96,
+          "height": 965.79
+        },
+        "firstSeen": 28.111,
+        "lastSeen": 28.111,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          28.111
+        ]
+      },
+      {
+        "code": "content_overlap",
+        "severity": "info",
+        "time": 29.25,
+        "selector": "#s6-t",
+        "message": "Two text blocks overlap and may render unreadable.",
+        "rect": {
+          "left": 160,
+          "top": 36,
+          "right": 669.16,
+          "bottom": 113,
+          "width": 509.16,
+          "height": 77
+        },
+        "containerSelector": "#s7-t",
+        "text": "Çevrim içi sınavlar",
+        "fixHint": "Give each block its own zone, or put data-layout-allow-overlap on the text or on a container inside the scene. A marker on the scene root does not apply.",
+        "dataAttributes": {},
+        "sourceFile": "index.html",
+        "bbox": {
+          "x": 160,
+          "y": 36,
+          "width": 509.16,
+          "height": 77
+        },
+        "firstSeen": 29.25,
+        "lastSeen": 29.25,
+        "occurrences": 1,
+        "heldMs": 0,
+        "times": [
+          29.25
+        ]
+      }
+    ],
+    "duration": 46,
+    "samples": [
+      2.556,
+      7.667,
+      12.778,
+      17.889,
+      23,
+      28.111,
+      33.222,
+      38.333,
+      43.444
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 13,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": true,
+    "samples": [
+      2.556,
+      12.778,
+      23,
+      33.222,
+      43.444
+    ],
+    "checked": 19,
+    "passed": 19
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

@@ -1,0 +1,903 @@
+{
+  "version": 1,
+  "historyId": "a0262202-5260-40b8-8aee-b88def782d6e",
+  "currentRevision": "84ac2f23-9bf6-41f3-95d0-9e3e3c60046a",
+  "pendingChanges": false,
+  "files": {
+    "AGENTS.md": {
+      "hash": "1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\1d\\1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5"
+    },
+    "CLAUDE.md": {
+      "hash": "1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\1d\\1d4f0c8ca2507b94fd7c9df709fff01416adbd51a0f922b9d6ed2f40129147d5"
+    },
+    "assets/01-dashboard.png": {
+      "hash": "b7dc02102567a1e066dd98960743306882c7753d4006c8d9a2b9c4e2cbfe039f",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\b7\\b7dc02102567a1e066dd98960743306882c7753d4006c8d9a2b9c4e2cbfe039f"
+    },
+    "assets/02-courses.png": {
+      "hash": "f296078edca615457d35f3850fe141969a64d9d372a02b88630b9ba3540daf33",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\f2\\f296078edca615457d35f3850fe141969a64d9d372a02b88630b9ba3540daf33"
+    },
+    "assets/03-announcements.png": {
+      "hash": "96719a294b17605d5ef3847691da86474323bb60f5f508949d6464c59e23aa9f",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\96\\96719a294b17605d5ef3847691da86474323bb60f5f508949d6464c59e23aa9f"
+    },
+    "assets/04-calendar.png": {
+      "hash": "dc068d1a513849144b0c7668e2b492fb5cdf8b5e9749477d99e6c3d3515e6240",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\dc\\dc068d1a513849144b0c7668e2b492fb5cdf8b5e9749477d99e6c3d3515e6240"
+    },
+    "assets/05-assignments.png": {
+      "hash": "760ab69d19885f886f3dcc85ef9dfbcfacd2ac237d4f272e8fa35590ee7b0084",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\76\\760ab69d19885f886f3dcc85ef9dfbcfacd2ac237d4f272e8fa35590ee7b0084"
+    },
+    "assets/06-exams.png": {
+      "hash": "2c1dd378f8aab5743d9f8241e4d6eaa50581a913cf05505e44aa3177059f2df9",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\2c\\2c1dd378f8aab5743d9f8241e4d6eaa50581a913cf05505e44aa3177059f2df9"
+    },
+    "hyperframes.json": {
+      "hash": "44d4e8dcefebce0a13f5afa82aa270b0b19a1d3f82e434f92616010cee775dc4",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\44\\44d4e8dcefebce0a13f5afa82aa270b0b19a1d3f82e434f92616010cee775dc4"
+    },
+    "index.html": {
+      "hash": "1d533199e6d23b86c72eabf7831d30d8ce22e5f98c215bc5e4dbe52e04be2daf",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\1d\\1d533199e6d23b86c72eabf7831d30d8ce22e5f98c215bc5e4dbe52e04be2daf"
+    },
+    "meta.json": {
+      "hash": "7fa5395b09134e03da0a9b6b7d747406db7e7a12377913f834f03490c301e2e3",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\7f\\7fa5395b09134e03da0a9b6b7d747406db7e7a12377913f834f03490c301e2e3"
+    },
+    "package.json": {
+      "hash": "faf802a8df0ec0a1c9c0b24e36ea39fee63ab0694851baa2c878152eaadca7d2",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\fa\\faf802a8df0ec0a1c9c0b24e36ea39fee63ab0694851baa2c878152eaadca7d2"
+    },
+    "assets/demo.mp4": {
+      "hash": "47cafcbbcf32c6af9225d62d64ffe1b5057a3c0c2c8b8b1014e1c14b6acaa34a",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\47\\47cafcbbcf32c6af9225d62d64ffe1b5057a3c0c2c8b8b1014e1c14b6acaa34a"
+    },
+    "assets/logo.png": {
+      "hash": "e33b34469422fa924de9a36119867d999a3fa2a4b196103cd734df1589a07751",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\e3\\e33b34469422fa924de9a36119867d999a3fa2a4b196103cd734df1589a07751"
+    },
+    "BRIEF.md": {
+      "hash": "8df6e869f1ccc5040ca49c9ffd992cebc3d97c5b3446707bf061d0281d70e2b6",
+      "content": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\8d\\8df6e869f1ccc5040ca49c9ffd992cebc3d97c5b3446707bf061d0281d70e2b6"
+    }
+  },
+  "revisions": {
+    "884c1a21-c126-4d06-a442-735fd42158fe": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791999787239,
+      "endedAt": 1791999787244,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\ef\\ef11047cb2bc0ee4585de95d675de145b88c96c375026cc002f71ec4c7ed5ad5",
+          "after": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\5a\\5a815ceebd779a078c5576b012ab56c20e1b0d1f4eedd6fd22e7c0da8454b581"
+        }
+      }
+    },
+    "353c6423-3948-49a9-b4cf-e50574fdfe64": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791999829575,
+      "endedAt": 1791999829579,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\5a\\5a815ceebd779a078c5576b012ab56c20e1b0d1f4eedd6fd22e7c0da8454b581",
+          "after": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\85\\850ec9aa4a787678dcb85aab41bf984ecd576d012fc3c392dc00b0e4420bf61a"
+        }
+      }
+    },
+    "53e158da-70a3-4fb8-9295-a9251902acdb": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791999837504,
+      "endedAt": 1791999838973,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\85\\850ec9aa4a787678dcb85aab41bf984ecd576d012fc3c392dc00b0e4420bf61a",
+          "after": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\83\\836d698c5866bbe6613fd0a6844e63ee05575b8829c38e2c0f856671f62d2a10"
+        }
+      }
+    },
+    "926a515a-b414-45cd-8c04-de9285092005": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791999868756,
+      "endedAt": 1791999870228,
+      "files": {
+        "index.html": {
+          "before": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\83\\836d698c5866bbe6613fd0a6844e63ee05575b8829c38e2c0f856671f62d2a10",
+          "after": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\1d\\1d533199e6d23b86c72eabf7831d30d8ce22e5f98c215bc5e4dbe52e04be2daf"
+        }
+      }
+    },
+    "84ac2f23-9bf6-41f3-95d0-9e3e3c60046a": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1791999962307,
+      "endedAt": 1791999964315,
+      "files": {
+        "BRIEF.md": {
+          "before": null,
+          "after": "C:\\Users\\zafer\\.cache\\hyperframes\\history\\a0262202-5260-40b8-8aee-b88def782d6e\\blobs\\8d\\8df6e869f1ccc5040ca49c9ffd992cebc3d97c5b3446707bf061d0281d70e2b6"
+        }
+      }
+    }
+  },
+  "checks": {
+    "latest": {
+      "revision": "926a515a-b414-45cd-8c04-de9285092005",
+      "id": "a616e6eb-ef6d-4a19-9bcb-12d5a6aa6ab1"
+    },
+    "revisions": {
+      "884c1a21-c126-4d06-a442-735fd42158fe": [
+        {
+          "id": "da99e5e6-8e79-44c2-b79d-e044a7073f8d",
+          "scope": "project",
+          "report": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\checks\\da99e5e6-8e79-44c2-b79d-e044a7073f8d.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1791999811965,
+          "contentHash": "1f19c44c96a3a819eb6a2215636dd9e68483d8c428b3dfb1f9cdcd68042750c8",
+          "revision": "884c1a21-c126-4d06-a442-735fd42158fe",
+          "inputFingerprint": "404a59e4a8d54a9c850524617c63cf64ee67c7b3e39f64c51111936f820d72eb",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "53e158da-70a3-4fb8-9295-a9251902acdb": [
+        {
+          "id": "0e4461ca-34cf-4696-bd89-079b8e2022d6",
+          "scope": "project",
+          "report": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\checks\\0e4461ca-34cf-4696-bd89-079b8e2022d6.json",
+          "metadata": {
+            "ok": false,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1791999864765,
+          "contentHash": "53d454a42b7329e6ca9492d9b20d9ec7f8aab4d639af50110d137527edc77192",
+          "revision": "53e158da-70a3-4fb8-9295-a9251902acdb",
+          "inputFingerprint": "b45ec416c6cbab435b33a49396801620a480f800908808f928131f486df46969",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "926a515a-b414-45cd-8c04-de9285092005": [
+        {
+          "id": "a616e6eb-ef6d-4a19-9bcb-12d5a6aa6ab1",
+          "scope": "project",
+          "report": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\checks\\a616e6eb-ef6d-4a19-9bcb-12d5a6aa6ab1.json",
+          "metadata": {
+            "ok": true,
+            "browserSkipped": false,
+            "options": {
+              "samples": 9,
+              "atTransitions": false,
+              "maxIssues": 80,
+              "collapseStatic": true,
+              "tolerance": 2,
+              "timeout": 3000,
+              "contrast": true,
+              "strict": false,
+              "snapshots": false,
+              "browserGpuMode": "auto"
+            }
+          },
+          "createdAt": 1791999895349,
+          "contentHash": "bf0e91e67389d4051c7c280e74a1e743629dc97d430b3cd37fed518d678ac22d",
+          "revision": "926a515a-b414-45cd-8c04-de9285092005",
+          "inputFingerprint": "6b94160833ab3904004b95e6865bb0dfa569565739d27218eefd09305c1bfb87",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "id": "2400c733-9c5d-42ed-b7d2-227487c73123",
+        "scope": "project",
+        "report": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\checks\\2400c733-9c5d-42ed-b7d2-227487c73123.json",
+        "metadata": {
+          "ok": true,
+          "browserSkipped": false,
+          "options": {
+            "samples": 9,
+            "atTransitions": false,
+            "maxIssues": 80,
+            "collapseStatic": true,
+            "tolerance": 2,
+            "timeout": 3000,
+            "contrast": true,
+            "strict": false,
+            "snapshots": false,
+            "browserGpuMode": "auto"
+          }
+        },
+        "createdAt": 1791999688419,
+        "contentHash": "69600d36d2d2978466865b215613d6326da11576d27977aa7f31157bf16000ac",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  },
+  "snapshots": {
+    "latest": {
+      "revision": "926a515a-b414-45cd-8c04-de9285092005",
+      "id": "58e8b7d8-7d38-48af-8f07-50aafdc7114d-0"
+    },
+    "revisions": {
+      "884c1a21-c126-4d06-a442-735fd42158fe": [
+        {
+          "scope": "full",
+          "id": "2aad6fc2-2d83-4529-bf16-363116c827d1-0",
+          "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\bb974d07-15bf-4830-b98e-d97b6fc2c346\\frame-00-at-28s.png",
+          "time": 28,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791999823902,
+          "contentHash": "01ac4d22e8a5900f215b9156133edbd659871d86037daa13bc93c44b6e5dd0d2",
+          "revision": "884c1a21-c126-4d06-a442-735fd42158fe",
+          "inputFingerprint": "404a59e4a8d54a9c850524617c63cf64ee67c7b3e39f64c51111936f820d72eb",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        },
+        {
+          "scope": "full",
+          "id": "2aad6fc2-2d83-4529-bf16-363116c827d1-1",
+          "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\bb974d07-15bf-4830-b98e-d97b6fc2c346\\frame-01-at-31s.png",
+          "time": 31,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791999823902,
+          "contentHash": "1c6af334e66030bf1b49547e37019611a4fc229cf0aa51d16f1c0e01ec3e5d4a",
+          "revision": "884c1a21-c126-4d06-a442-735fd42158fe",
+          "inputFingerprint": "404a59e4a8d54a9c850524617c63cf64ee67c7b3e39f64c51111936f820d72eb",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ],
+      "926a515a-b414-45cd-8c04-de9285092005": [
+        {
+          "scope": "full",
+          "id": "58e8b7d8-7d38-48af-8f07-50aafdc7114d-0",
+          "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\a2d29c43-4475-4b9c-b31c-7f43f8f8b5fc\\frame-00-at-31s.png",
+          "time": 31,
+          "metadata": {
+            "width": 1920,
+            "height": 1080,
+            "zoomScale": 1,
+            "browserGpuMode": "auto",
+            "warnings": [],
+            "partial": false
+          },
+          "createdAt": 1791999910352,
+          "contentHash": "fd414e2b36b17e7387bdd1a4ef56bd705f4cbd323fd339227e77f1d17cd7b69d",
+          "revision": "926a515a-b414-45cd-8c04-de9285092005",
+          "inputFingerprint": "6b94160833ab3904004b95e6865bb0dfa569565739d27218eefd09305c1bfb87",
+          "inputScope": "local-project-files",
+          "attribution": "recorded-revision"
+        }
+      ]
+    },
+    "unversioned": [
+      {
+        "scope": "full",
+        "id": "ccec795d-1e4e-4c6c-a1f8-ffc6a9469733-0",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\002dec86-d260-4a71-9d9a-5fcbad47f1a3\\frame-00-at-2.5s.png",
+        "time": 2.5,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999697985,
+        "contentHash": "36c903614b22f2f04938ad2dc973e3f7887b58d561daaa72a44425c0bfac228e",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "ccec795d-1e4e-4c6c-a1f8-ffc6a9469733-1",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\002dec86-d260-4a71-9d9a-5fcbad47f1a3\\frame-01-at-7s.png",
+        "time": 7,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999697985,
+        "contentHash": "7a6653ea10a0c8cfbc3817ba82cb366d0720b3472846de4a1f3dc08b4d925902",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "ccec795d-1e4e-4c6c-a1f8-ffc6a9469733-2",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\002dec86-d260-4a71-9d9a-5fcbad47f1a3\\frame-02-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999697985,
+        "contentHash": "c9a71bce88cc3ebb0a4ce36630cbc13ccae4a698496c5275b51e9553d4630256",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "ccec795d-1e4e-4c6c-a1f8-ffc6a9469733-3",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\002dec86-d260-4a71-9d9a-5fcbad47f1a3\\frame-03-at-17s.png",
+        "time": 17,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999697985,
+        "contentHash": "c0cf0e4661987e5b7fd4aedb096295b72ecc2fdddb4090747d7150885f59a3c4",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "ccec795d-1e4e-4c6c-a1f8-ffc6a9469733-4",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\002dec86-d260-4a71-9d9a-5fcbad47f1a3\\frame-04-at-22s.png",
+        "time": 22,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999697985,
+        "contentHash": "abe158ec57017c7b213e558e702f705a67085ec58b3f66192e9275af551cfcef",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "ccec795d-1e4e-4c6c-a1f8-ffc6a9469733-5",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\002dec86-d260-4a71-9d9a-5fcbad47f1a3\\frame-05-at-27s.png",
+        "time": 27,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999697986,
+        "contentHash": "c21072a294a40b9d25f15505a7f070e2ab2bab96a06c6b02d40668d01cc76ba9",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "e228c5a0-71b6-4895-9f91-34a978247a06-0",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\475e44f8-124c-4b47-9c6b-58fe21786b8e\\frame-00-at-2.5s.png",
+        "time": 2.5,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999721106,
+        "contentHash": "36c903614b22f2f04938ad2dc973e3f7887b58d561daaa72a44425c0bfac228e",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "e228c5a0-71b6-4895-9f91-34a978247a06-1",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\475e44f8-124c-4b47-9c6b-58fe21786b8e\\frame-01-at-7s.png",
+        "time": 7,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999721106,
+        "contentHash": "7a6653ea10a0c8cfbc3817ba82cb366d0720b3472846de4a1f3dc08b4d925902",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "e228c5a0-71b6-4895-9f91-34a978247a06-2",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\475e44f8-124c-4b47-9c6b-58fe21786b8e\\frame-02-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999721106,
+        "contentHash": "c9a71bce88cc3ebb0a4ce36630cbc13ccae4a698496c5275b51e9553d4630256",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "e228c5a0-71b6-4895-9f91-34a978247a06-3",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\475e44f8-124c-4b47-9c6b-58fe21786b8e\\frame-03-at-17s.png",
+        "time": 17,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999721106,
+        "contentHash": "c0cf0e4661987e5b7fd4aedb096295b72ecc2fdddb4090747d7150885f59a3c4",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "e228c5a0-71b6-4895-9f91-34a978247a06-4",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\475e44f8-124c-4b47-9c6b-58fe21786b8e\\frame-04-at-22s.png",
+        "time": 22,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999721106,
+        "contentHash": "abe158ec57017c7b213e558e702f705a67085ec58b3f66192e9275af551cfcef",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "e228c5a0-71b6-4895-9f91-34a978247a06-5",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\475e44f8-124c-4b47-9c6b-58fe21786b8e\\frame-05-at-27s.png",
+        "time": 27,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999721106,
+        "contentHash": "c21072a294a40b9d25f15505a7f070e2ab2bab96a06c6b02d40668d01cc76ba9",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "4a67ae14-f307-49eb-ba8c-d3766e0987a8-0",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\f79e01fd-ca86-4ecd-872f-209b4206de2b\\frame-00-at-2.5s.png",
+        "time": 2.5,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999744538,
+        "contentHash": "36c903614b22f2f04938ad2dc973e3f7887b58d561daaa72a44425c0bfac228e",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "4a67ae14-f307-49eb-ba8c-d3766e0987a8-1",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\f79e01fd-ca86-4ecd-872f-209b4206de2b\\frame-01-at-7s.png",
+        "time": 7,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999744538,
+        "contentHash": "7a6653ea10a0c8cfbc3817ba82cb366d0720b3472846de4a1f3dc08b4d925902",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "4a67ae14-f307-49eb-ba8c-d3766e0987a8-2",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\f79e01fd-ca86-4ecd-872f-209b4206de2b\\frame-02-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999744539,
+        "contentHash": "c9a71bce88cc3ebb0a4ce36630cbc13ccae4a698496c5275b51e9553d4630256",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "4a67ae14-f307-49eb-ba8c-d3766e0987a8-3",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\f79e01fd-ca86-4ecd-872f-209b4206de2b\\frame-03-at-17s.png",
+        "time": 17,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999744539,
+        "contentHash": "c0cf0e4661987e5b7fd4aedb096295b72ecc2fdddb4090747d7150885f59a3c4",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "4a67ae14-f307-49eb-ba8c-d3766e0987a8-4",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\f79e01fd-ca86-4ecd-872f-209b4206de2b\\frame-04-at-22s.png",
+        "time": 22,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999744539,
+        "contentHash": "abe158ec57017c7b213e558e702f705a67085ec58b3f66192e9275af551cfcef",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "4a67ae14-f307-49eb-ba8c-d3766e0987a8-5",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\f79e01fd-ca86-4ecd-872f-209b4206de2b\\frame-05-at-27s.png",
+        "time": 27,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": true
+        },
+        "createdAt": 1791999744539,
+        "contentHash": "c21072a294a40b9d25f15505a7f070e2ab2bab96a06c6b02d40668d01cc76ba9",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "9768682b-f767-4f02-bb16-413fc1980778-0",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\5c681b30-34d8-4905-b75a-61f82f4c83f0\\frame-00-at-2.5s.png",
+        "time": 2.5,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999755680,
+        "contentHash": "36c903614b22f2f04938ad2dc973e3f7887b58d561daaa72a44425c0bfac228e",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "9768682b-f767-4f02-bb16-413fc1980778-1",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\5c681b30-34d8-4905-b75a-61f82f4c83f0\\frame-01-at-44.62s.png",
+        "time": 44.62,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999755681,
+        "contentHash": "9e8b15176c94916d4e8a0d29023659dccc894d4ce3712638eff2e8fac0e1f5e1",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-0",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-00-at-7s.png",
+        "time": 7,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770153,
+        "contentHash": "7a6653ea10a0c8cfbc3817ba82cb366d0720b3472846de4a1f3dc08b4d925902",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-1",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-01-at-12s.png",
+        "time": 12,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770153,
+        "contentHash": "c9a71bce88cc3ebb0a4ce36630cbc13ccae4a698496c5275b51e9553d4630256",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-2",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-02-at-17s.png",
+        "time": 17,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770153,
+        "contentHash": "c0cf0e4661987e5b7fd4aedb096295b72ecc2fdddb4090747d7150885f59a3c4",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-3",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-03-at-22s.png",
+        "time": 22,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770154,
+        "contentHash": "abe158ec57017c7b213e558e702f705a67085ec58b3f66192e9275af551cfcef",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-4",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-04-at-27s.png",
+        "time": 27,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770154,
+        "contentHash": "c21072a294a40b9d25f15505a7f070e2ab2bab96a06c6b02d40668d01cc76ba9",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-5",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-05-at-33s.png",
+        "time": 33,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770154,
+        "contentHash": "e9c800d3883be2ccf611598750aa6cf6b2ec5fe80177f4311d651f0c4c2f3cad",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-6",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-06-at-41s.png",
+        "time": 41,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770154,
+        "contentHash": "464af0ff03a27135b7969d86d37598dca9fa80b1a55bb93ae53796a0453b5b26",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      },
+      {
+        "scope": "full",
+        "id": "f08fa968-293a-4140-b526-6b8dda0d1af7-7",
+        "image": "D:\\programs\\lms\\videos\\akademi-lms-promo\\.hyperframes\\artifacts\\snapshots\\48f93481-f1fc-4046-9fa8-ec961805875a\\frame-07-at-44.62s.png",
+        "time": 44.62,
+        "metadata": {
+          "width": 1920,
+          "height": 1080,
+          "zoomScale": 1,
+          "browserGpuMode": "auto",
+          "warnings": [],
+          "partial": false
+        },
+        "createdAt": 1791999770154,
+        "contentHash": "9e8b15176c94916d4e8a0d29023659dccc894d4ce3712638eff2e8fac0e1f5e1",
+        "revision": null,
+        "inputFingerprint": "be90f084a14352bed6e1d8617530f70aa6ee6f189cd171b3af269f743eddcbac",
+        "inputScope": "local-project-files",
+        "attribution": "unversioned"
+      }
+    ]
+  }
+}

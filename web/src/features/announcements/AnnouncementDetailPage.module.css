@@ -45,18 +45,6 @@
   border-bottom: 1px solid var(--color-outline-variant);
 }
 
-.body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-  white-space: pre-line;
-  overflow-wrap: anywhere;
-}
-
-.body p {
-  margin: 0;
-}
-
 .editLink {
   margin-top: var(--space-lg);
 }

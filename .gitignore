@@ -4,3 +4,4 @@ dist/
 lms.txt
 *.local
 .DS_Store
+logs/

@@ -272,7 +272,8 @@ model CalendarEvent {
 model Announcement {
   id        String    @id @default(cuid())
   title     String
-  /// Düz metin; paragraflar boş satırla ayrılır.
+  /// Sınırlı Markdown alt kümesi (##/### başlık, **kalın**, *italik*, "- " ve "1. " liste, "> " alıntı,
+  /// [metin](https://...) bağlantı; paragraflar boş satırla ayrılır). Ham HTML reddedilir; eski düz metin geçerlidir.
   body      String
   /// Allowed literals: "ACADEMIC" | "COURSE" | "IT" | "EVENT" | "GENERAL"
   category  String    @default("GENERAL")

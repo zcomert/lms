@@ -16,6 +16,9 @@ export const MAX_BODY = 10000;
 export const DEFAULT_LIST_LIMIT = 50;
 export const MAX_LIST_LIMIT = 100;
 
+/** `<harf`, `</harf` veya `<!--` ile başlayan etiket benzeri yapılar; "a < b" gibi düz `<` eşleşmez. */
+const HTML_TAG_LIKE = /<\/?[A-Za-z]|<!--/;
+
 function validation(message: string): AppError {
   return new AppError('VALIDATION_ERROR', message, 400);
 }
@@ -65,8 +68,11 @@ function optionalInstant(value: unknown, field: string): Date | null {
  */
 export function normalizeAnnouncementInput(raw: RawAnnouncementInput, now: Date): AnnouncementData {
   const title = requiredText(raw.title, 'title', MAX_TITLE);
-  // Gövdede paragraf yapısı korunur; yalnızca baş/son boşluk kırpılır.
+  // Gövde sınırlı bir Markdown alt kümesidir; satır/paragraf yapısı korunur, yalnızca baş/son boşluk kırpılır.
   const body = requiredText(raw.body, 'body', MAX_BODY);
+  if (HTML_TAG_LIKE.test(body)) {
+    throw validation('body ham HTML etiketi içeremez; yalnızca Markdown biçimlendirmesi kullanın.');
+  }
 
   const category = raw.category === undefined || raw.category === null ? 'GENERAL' : raw.category;
   if (typeof category !== 'string' || !(ANNOUNCEMENT_CATEGORIES as readonly string[]).includes(category)) {

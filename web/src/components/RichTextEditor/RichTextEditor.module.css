@@ -1,0 +1,82 @@
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.editor [hidden] {
+  display: none;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.tabs {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.tab {
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-default);
+  color: var(--color-on-surface-variant);
+  font: inherit;
+  font-weight: 600;
+}
+
+.tab:hover {
+  background-color: var(--color-surface-container);
+}
+
+.tabActive {
+  color: var(--color-secondary);
+  background-color: var(--color-secondary-soft);
+}
+
+.tab:focus-visible,
+.textarea:focus-visible,
+.tool:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.tool {
+  padding: var(--space-xs);
+}
+
+.tool:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.textarea {
+  font: inherit;
+  width: 100%;
+  resize: vertical;
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-default);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.preview {
+  min-height: 10rem;
+  max-height: 24rem;
+  overflow-y: auto;
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-default);
+}

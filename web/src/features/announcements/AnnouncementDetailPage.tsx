@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import { Badge, Card, Icon, Text } from '../../components';
+import { Badge, Card, Icon, RichText, Text } from '../../components';
 import { PageContainer } from '../../layout/PageContainer';
 import { CATEGORIES, STATES, formatDateTime } from './announcementMeta';
 import { useAnnouncement } from './useAnnouncements';
@@ -63,13 +63,7 @@ export function AnnouncementDetailPage() {
             )}
           </Text>
 
-          <div className={styles.body}>
-            {announcement.body.split(/\n{2,}/).map((paragraph, index) => (
-              <Text key={index} role="body-lg" as="p">
-                {paragraph}
-              </Text>
-            ))}
-          </div>
+          <RichText body={announcement.body} />
 
           {announcement.canEdit && (
             <Link to={`/yonetim/duyurular?duzenle=${announcement.id}`} className={styles.editLink}>

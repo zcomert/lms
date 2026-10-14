@@ -234,7 +234,7 @@ async function main() {
     data: [
       {
         title: 'Güz Dönemi Ara Sınav Takvimi Yayınlandı',
-        body: 'Güz dönemi ara sınav takvimi kesinleşmiştir. Sınav tarih ve saatlerini Takvim sayfasından takip edebilirsiniz.\n\nMazeret sınavı başvuruları sınavdan sonraki 3 iş günü içinde yapılmalıdır.',
+        body: '## Ara Sınav Takvimi\n\nGüz dönemi ara sınav takvimi **kesinleşmiştir**. Sınav tarih ve saatlerini [Takvim sayfasından](https://example.com/takvim) takip edebilirsiniz.\n\n### Önemli notlar\n\n- Sınava *kimlik belgesiyle* gelinmelidir.\n- Mazeret sınavı başvuruları sınavdan sonraki 3 iş günü içinde yapılmalıdır.\n\n> Başarılar dileriz.',
         category: 'ACADEMIC',
         status: 'PUBLISHED',
         publishAt: hoursAgo(3),

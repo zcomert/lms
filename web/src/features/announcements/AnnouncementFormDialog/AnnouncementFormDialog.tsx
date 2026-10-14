@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { FormEvent, KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
-import { Button, Text } from '../../../components';
+import { Button, RichTextEditor, Text } from '../../../components';
 import type { AnnouncementCategory, AnnouncementItem } from '../../../types';
 import { toDateTimeInput } from '../../calendar/dateUtils';
 import { CATEGORIES, CATEGORY_KEYS } from '../announcementMeta';
@@ -232,31 +232,22 @@ export function AnnouncementFormDialog({
             </label>
           </div>
 
-          <label className={styles.field}>
-            <span className={styles.labelRow}>
-              <Text role="label-md" as="span" tone="muted">
-                Duyuru metni
-              </Text>
-              <Text role="body-sm" as="span" tone="muted">
-                {body.length.toLocaleString('tr-TR')} / {MAX_BODY.toLocaleString('tr-TR')}
-              </Text>
-            </span>
-            <textarea
-              className={styles.textarea}
-              rows={8}
+          <div className={styles.field}>
+            <Text role="label-md" as="span" tone="muted">
+              Duyuru metni
+            </Text>
+            <RichTextEditor
               value={body}
+              onChange={setBody}
               maxLength={MAX_BODY}
-              onChange={(event) => setBody(event.target.value)}
-              required
-              aria-required="true"
               aria-describedby={`${headingId}-body-hint`}
             />
             <span id={`${headingId}-body-hint`}>
               <Text role="body-sm" as="span" tone="muted">
-                Paragrafları boş bir satırla ayırın.
+                Paragrafları boş bir satırla ayırın. Araç çubuğu veya Markdown ile biçimlendirebilirsiniz.
               </Text>
             </span>
-          </label>
+          </div>
 
           <fieldset className={styles.fieldset}>
             <legend>
