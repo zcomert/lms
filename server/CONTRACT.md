@@ -371,6 +371,47 @@ Body (kısmi): `{ "liked"?: boolean, "rating"?: integer 1..5 | null }`
 200: yukarıdaki yanıt (yeniden hesaplanmış)
 400/401/403/404: yukarıdaki hata biçimleriyle
 
+## Lesson Comments (Ders yorumları)
+
+Saklama: `LessonComment` tablosu. Tek seviye threaded: `parentId` doluysa bu bir yanıttır; bir yanıta tekrar yanıt verilemez (API katmanında zorlanır, DB constraint yok — SQLite). Düzenleme, silme ve eğitmen moderasyonu bu turda yok. Yalnızca YAYINLANMIŞ dersler için geçerlidir; yok veya taslak ders 404 döner. Yetki (okuma + yazma): dersin kursuna kayıtlı kullanıcılar VEYA ADMIN / kursa atanmış INSTRUCTOR.
+
+### GET /api/v1/lessons/:lessonId/comments
+Header: `Authorization: Bearer <token>`
+200:
+```json
+{
+  "comments": [
+    {
+      "id": "string",
+      "body": "string",
+      "author": { "id": "string", "name": "string", "avatarUrl": "string|null" },
+      "createdAt": "2026-10-14T09:00:00.000Z",
+      "replies": [
+        { "id": "string", "body": "string", "author": {}, "createdAt": "..." }
+      ]
+    }
+  ]
+}
+```
+- Sıralama: üst yorumlar `createdAt` ARTAN (eski→yeni); her üst yorumun `replies`'i de `createdAt` artan.
+- Yalnızca üst yorumlar kök `comments` dizisinde; yanıtlar iç içe `replies` altında (düz liste + `parentId` dönülmez — sunucu gruplar).
+401: `{ "error": { "code": "UNAUTHORIZED", "message": "Giriş yapmanız gerekiyor." } }`
+403: `{ "error": { "code": "NOT_ENROLLED", "message": "Bu kursa kayıtlı değilsiniz." } }`
+404: `{ "error": { "code": "NOT_FOUND", "message": "Ders bulunamadı." } }` (ders yok veya taslak)
+
+### POST /api/v1/lessons/:lessonId/comments
+Header: `Authorization: Bearer <token>` (yetki okuma ile aynı)
+Body: `{ "body": string, "parentId"?: string }`
+- `body`: trim sonrası min 1, max 2000 karakter. Boş/whitespace-only → 400 `VALIDATION_ERROR`.
+- `parentId` verilmişse: DB'de yoksa → 404 `COMMENT_NOT_FOUND`; aynı derse ait değilse → 400 `INVALID_PARENT`; kendisi bir yanıtsa (`parentId !== null`) → 400 `INVALID_PARENT` ("Yalnızca üst seviye yorumlar yanıtlanabilir.").
+- Ayrı bir "reply" endpoint'i yok — tek POST, opsiyonel `parentId` ile hem kök yorum hem yanıt oluşturur.
+
+201:
+```json
+{ "comment": { "id": "...", "body": "...", "author": {}, "createdAt": "...", "parentId": "string|null" } }
+```
+400/401/403/404: yukarıdaki hata biçimleriyle; kontrol sırası 401 → 404 (ders) → 403 (yetki) → 400 (body) → parentId lookup (404) → parentId kuralları (400).
+
 ## Calendar (Akademik takvim)
 
 Saklama: `CalendarEvent` tablosu. `courseId` null ise genel etkinliktir (herkes görür); doluysa kursa aittir. Kurs silinirse etkinlikleri de silinir; oluşturan kullanıcı silinirse `createdById` null olur. `type`: `lecture` | `lab` | `exam` | `deadline` | `holiday` | `event` (varsayılan `event`).
