@@ -6,6 +6,7 @@ import { useLessonAutoComplete } from './useLessonAutoComplete';
 import { useStudyTracker } from './useStudyTracker';
 import { useMyLessonGrade } from './useMyLessonGrade';
 import { LessonFeedback } from './LessonFeedback';
+import { LessonComments } from './LessonComments';
 import { CONTENT_TYPE_ICONS } from './contentType';
 import type { CourseLessonSummary, CourseModuleSummary } from '../../types';
 import styles from './LessonDetailPage.module.css';
@@ -169,6 +170,8 @@ export function LessonDetailPage() {
           <LessonContent lesson={active.lesson} />
 
           <LessonFeedback lessonId={active.lesson.id} />
+
+          <LessonComments lessonId={active.lesson.id} />
 
           {progressError && (
             <Text role="body-sm" tone="error" as="p" className={styles.completion}>

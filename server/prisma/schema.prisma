@@ -36,6 +36,7 @@ model User {
   quizGradesReceived QuizGrade[] @relation("QuizGradesReceived")
   quizGradesGiven    QuizGrade[] @relation("QuizGradesGiven")
   lessonFeedback LessonFeedback[]
+  lessonComments LessonComment[]
   calendarEventsCreated CalendarEvent[] @relation("CalendarEventsCreated")
   announcementsAuthored Announcement[] @relation("AnnouncementsAuthored")
   questionBanksCreated QuestionBank[] @relation("QuestionBanksCreated")
@@ -86,6 +87,7 @@ model Lesson {
   lessonProgress LessonProgress[]
   quizGrades  QuizGrade[]
   lessonFeedback LessonFeedback[]
+  lessonComments LessonComment[]
 }
 
 /// Ders başına kullanıcı geri bildirimi: beğeni ve/veya 1–5 puan. İkisi de boşsa satır tutulmaz.
@@ -103,6 +105,19 @@ model LessonFeedback {
 
   @@unique([userId, lessonId])
   @@index([lessonId])
+}
+
+/// Derse yazılan öğrenci yorumu. Gövde kaydedilmeden önce saygısız ifadelere karşı denetlenir.
+model LessonComment {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+
+  @@index([lessonId, createdAt])
 }
 
 model LessonProgress {

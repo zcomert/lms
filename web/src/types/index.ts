@@ -244,6 +244,16 @@ export interface LessonFeedback {
   mine: MyLessonFeedback;
 }
 
+/** Ders yorumu (GET /api/v1/lessons/:lessonId/comments yanıtındaki tek öğe). */
+export interface LessonComment {
+  id: string;
+  body: string;
+  createdAt: string;
+  author: { id: string; name: string; avatarUrl: string | null };
+  /** Yorumun yazarı ya da kursu yöneten eğitmen/yönetici ise true. */
+  canDelete: boolean;
+}
+
 /** Takvim etkinliği türü; renk ve simge bu türe göre seçilir. */
 export type CalendarEventType = 'lecture' | 'lab' | 'exam' | 'deadline' | 'holiday' | 'event';
 
