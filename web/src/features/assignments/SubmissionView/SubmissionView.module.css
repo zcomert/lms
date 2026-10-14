@@ -1,0 +1,28 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.label {
+  margin-bottom: var(--space-xs);
+}
+
+.text {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+.grade {
+  padding: var(--space-md);
+  background-color: var(--color-state-success-soft);
+  border-radius: var(--radius-default);
+}

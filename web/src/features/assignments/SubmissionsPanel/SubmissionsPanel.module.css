@@ -1,0 +1,124 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  font: inherit;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.table td {
+  padding: var(--space-sm) var(--space-md);
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-surface-container);
+}
+
+.student {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.studentText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.email {
+  overflow-wrap: anywhere;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.actionCell {
+  text-align: right;
+}
+
+.detailRow td {
+  background-color: var(--color-surface-container-low);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-lg);
+  padding: var(--space-sm) 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .table tr {
+    padding: var(--space-md);
+    margin-bottom: var(--space-sm);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-default);
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-xs) 0;
+    border-bottom: 0;
+  }
+
+  .table td[data-label]::before {
+    content: attr(data-label);
+    flex: none;
+    color: var(--color-text-muted);
+  }
+
+  .actionCell {
+    justify-content: flex-end;
+  }
+
+  .detailRow td {
+    display: block;
+  }
+
+  .detail {
+    grid-template-columns: 1fr;
+  }
+}

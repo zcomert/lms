@@ -3,6 +3,7 @@ import { prisma } from '../lib/prisma.js';
 import { requireAuth, requireRole, tryAuth } from '../middleware/rbac.js';
 import { AppError } from '../errors.js';
 import { computeProgress } from '../lib/progress.js';
+import { deleteStoredFiles } from '../lib/uploads.js';
 import {
   assertCanManageCourse,
   canManageCourse,
@@ -209,7 +210,19 @@ export function registerCourseRoutes(app: FastifyInstance) {
         throw new AppError('NOT_FOUND', 'Kurs bulunamadı.', 404);
       }
       await assertCanManageCourse(request.user, course.id);
+      // Cascade yalnızca satırları siler; ödev ekleri ve teslim dosyaları diskten ayrıca temizlenir.
+      const [attachments, submissionFiles] = await Promise.all([
+        prisma.assignmentAttachment.findMany({
+          where: { assignment: { courseId: course.id } },
+          select: { storedName: true },
+        }),
+        prisma.submissionFile.findMany({
+          where: { submission: { assignment: { courseId: course.id } } },
+          select: { storedName: true },
+        }),
+      ]);
       await prisma.course.delete({ where: { id: course.id } });
+      await deleteStoredFiles([...attachments, ...submissionFiles].map((f) => f.storedName));
       return { success: true };
     },
   );

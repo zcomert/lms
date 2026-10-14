@@ -4,3 +4,5 @@ dist/
 dev.db-shm
 dev.db-wal
 test.db*
+uploads/
+uploads-test/

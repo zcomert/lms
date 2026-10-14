@@ -1,0 +1,31 @@
+.stars {
+  display: inline-flex;
+  gap: var(--space-xs);
+}
+
+.star {
+  display: inline-flex;
+  color: var(--color-outline);
+}
+
+.on {
+  color: var(--color-state-warning);
+}
+
+.button {
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: var(--space-xs);
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}

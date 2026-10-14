@@ -7,7 +7,7 @@ import { RedirectIfAuthed } from './RedirectIfAuthed';
 import { DashboardPage } from '../features/dashboard';
 import { CoursesPage, CourseDetailPage, LessonDetailPage } from '../features/courses';
 import { AnnouncementsPage, AnnouncementDetailPage, AnnouncementsAdminPage } from '../features/announcements';
-import { AssignmentsPage } from '../features/assignments';
+import { AssignmentsPage, AssignmentDetailPage } from '../features/assignments';
 import { ExamsPage } from '../features/exams';
 import { LoginPage, RegisterPage } from '../features/auth';
 import { ProfilePage } from '../features/profile';
@@ -44,6 +44,7 @@ export const router = createBrowserRouter([
           { path: 'kurslarim', element: <CoursesPage /> },
           { path: 'kurslarim/:id', element: <CourseDetailPage /> },
           { path: 'kurslarim/:courseId/ders/:lessonId', element: <LessonDetailPage /> },
+          { path: 'kurslarim/:courseId/odevler/:assignmentId', element: <AssignmentDetailPage /> },
           { path: 'duyurular', element: <AnnouncementsPage /> },
           { path: 'duyurular/:id', element: <AnnouncementDetailPage /> },
           {

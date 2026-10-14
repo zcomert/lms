@@ -4,6 +4,6 @@ export default defineConfig({
   test: {
     environment: 'node',
     fileParallelism: false,
-    env: { DATABASE_URL: 'file:./test.db' },
+    env: { DATABASE_URL: 'file:./test.db', UPLOAD_DIR: './uploads-test' },
   },
 });

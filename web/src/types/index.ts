@@ -453,3 +453,171 @@ export interface MyExam {
   questionCount: number;
   availability: ExamAvailability;
 }
+
+/** Yorum/değerlendirme yazarı (e-posta dönmez). */
+export interface CommentAuthor {
+  id: string;
+  name: string;
+  avatarUrl: string | null;
+}
+
+export type CommentAuthorRole = 'INSTRUCTOR' | 'ADMIN';
+
+/** Eğitmen/yönetici yanıtı (ders yorumu veya kurs değerlendirmesi altında). */
+export interface CommentReply {
+  id: string;
+  body: string;
+  createdAt: string;
+  editedAt: string | null;
+  author: CommentAuthor;
+  authorRole: CommentAuthorRole;
+  canEdit: boolean;
+  canDelete: boolean;
+}
+
+/** Ders yorumu (`LessonFeedback` ile karıştırılmamalı: o beğeni/puan özetidir). */
+export interface LessonComment {
+  id: string;
+  body: string;
+  createdAt: string;
+  editedAt: string | null;
+  author: CommentAuthor;
+  canEdit: boolean;
+  canDelete: boolean;
+  replies: CommentReply[];
+}
+
+export interface LessonCommentPermissions {
+  canComment: boolean;
+  canReply: boolean;
+}
+
+export interface LessonCommentsResponse {
+  comments: LessonComment[];
+  permissions: LessonCommentPermissions;
+}
+
+export interface CourseReview {
+  id: string;
+  rating: number;
+  body: string | null;
+  createdAt: string;
+  editedAt: string | null;
+  author: CommentAuthor;
+  canEdit: boolean;
+  canDelete: boolean;
+  replies: CommentReply[];
+}
+
+export interface ReviewSummary {
+  ratingAverage: number | null;
+  ratingCount: number;
+  distribution: Record<'1' | '2' | '3' | '4' | '5', number>;
+}
+
+export interface CourseReviewPermissions {
+  canReview: boolean;
+  canReply: boolean;
+}
+
+export interface CourseReviewsResponse {
+  summary: ReviewSummary;
+  reviews: CourseReview[];
+  mine: CourseReview | null;
+  permissions: CourseReviewPermissions;
+}
+
+// ---------------------------------------------------------------------------
+// Ödev sistemi
+// ---------------------------------------------------------------------------
+
+export interface FileMeta {
+  id: string;
+  name: string;
+  size: number;
+  mimeType: string;
+  createdAt: string;
+}
+
+export type SubmissionStatus = 'NOT_SUBMITTED' | 'SUBMITTED' | 'GRADED';
+
+export type AssignmentStatus = 'DRAFT' | 'PUBLISHED';
+
+export interface Submission {
+  id: string;
+  assignmentId: string;
+  userId: string;
+  text: string | null;
+  files: FileMeta[];
+  submittedAt: string;
+  isLate: boolean;
+  score: number | null;
+  feedback: string | null;
+  gradedAt: string | null;
+}
+
+export interface AssignmentStats {
+  enrolledCount: number;
+  submittedCount: number;
+  gradedCount: number;
+  lateCount: number;
+}
+
+export interface Assignment {
+  id: string;
+  courseId: string;
+  courseTitle: string;
+  lessonId: string | null;
+  lessonTitle: string | null;
+  title: string;
+  description: string;
+  dueAt: string;
+  maxScore: number;
+  allowedExtensions: string[];
+  status: AssignmentStatus;
+  attachments: FileMeta[];
+  createdAt: string;
+  updatedAt: string;
+  /** Yalnızca öğrenci görünümünde. */
+  myStatus?: SubmissionStatus;
+  mySubmission?: Submission | null;
+  /** Yalnızca yönetici görünümünde. */
+  stats?: AssignmentStats;
+}
+
+export interface SubmissionRow {
+  student: { id: string; name: string; email: string; avatarUrl: string | null };
+  status: SubmissionStatus;
+  submission: Submission | null;
+}
+
+export interface CourseAssignmentsResponse {
+  assignments: Assignment[];
+  canManage: boolean;
+}
+
+export interface AssignmentResponse {
+  assignment: Assignment;
+}
+
+export interface MyAssignmentsResponse {
+  assignments: Assignment[];
+}
+
+export interface SubmissionsResponse {
+  submissions: SubmissionRow[];
+}
+
+export interface SubmissionResponse {
+  submission: Submission;
+}
+
+export interface AssignmentPayload {
+  title?: string;
+  description?: string;
+  dueAt?: string;
+  maxScore?: number;
+  allowedExtensions?: string[];
+  lessonId?: string | null;
+  status?: AssignmentStatus;
+}

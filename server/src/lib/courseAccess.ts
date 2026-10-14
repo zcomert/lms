@@ -1,5 +1,6 @@
 import { prisma } from './prisma.js';
 import { AppError } from '../errors.js';
+import { assertEnrolled } from './lessonAccess.js';
 import type { TokenPayload } from './jwt.js';
 
 type AccessUser = Pick<TokenPayload, 'userId' | 'role'> | undefined;
@@ -68,4 +69,19 @@ export function hasInstructorRole(roles: string): boolean {
     .split(',')
     .map((r) => r.trim())
     .includes('INSTRUCTOR');
+}
+
+export async function isEnrolled(userId: string, courseId: string): Promise<boolean> {
+  const row = await prisma.enrollment.findUnique({
+    where: { userId_courseId: { userId, courseId } },
+    select: { id: true },
+  });
+  return Boolean(row);
+}
+
+/** canManageCourse veya kayıtlı; değilse 403 NOT_ENROLLED. Yönetici olup olmadığını döner. */
+export async function assertCanRead(user: AccessUser & object, courseId: string): Promise<boolean> {
+  const manage = await canManageCourse(user, courseId);
+  if (!manage) await assertEnrolled(user.userId, courseId);
+  return manage;
 }
