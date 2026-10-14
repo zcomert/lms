@@ -119,6 +119,9 @@ export function AdminCoursesPage() {
                   </Text>
                 </div>
                 <div className={styles.actions}>
+                  <Link to={`/yonetim/kurslar/${course.id}/analitik`}>
+                    <IconButton icon="analytics" label="Öğrenme Analitiği" />
+                  </Link>
                   <Link to={`/yonetim/kurslar/${course.id}/ogrenciler`}>
                     <IconButton icon="group" label="Kayıtlı Öğrenciler" />
                   </Link>

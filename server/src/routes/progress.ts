@@ -3,7 +3,9 @@ import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../middleware/rbac.js';
 import { AppError } from '../errors.js';
 import { computeProgress } from '../lib/progress.js';
-import { assertEnrolled, loadPublishedLesson } from '../lib/lessonAccess.js';
+import { issueCertificate } from '../lib/certificates.js';
+import { awardBadge } from '../lib/badges.js';
+import { assertEnrolled, loadPublishedLesson, assertLessonUnlocked } from '../lib/lessonAccess.js';
 
 export function registerProgressRoutes(app: FastifyInstance) {
   app.put<{ Params: { id: string } }>(
@@ -14,12 +16,23 @@ export function registerProgressRoutes(app: FastifyInstance) {
       const lesson = await loadPublishedLesson(request.params.id);
       const courseId = lesson.module.courseId;
       await assertEnrolled(userId, courseId);
+      await assertLessonUnlocked(userId, lesson.id, request.user);
       await prisma.lessonProgress.upsert({
         where: { userId_lessonId: { userId, lessonId: lesson.id } },
         create: { userId, lessonId: lesson.id },
         update: {},
       });
-      return { progress: await computeProgress(userId, courseId) };
+      const progress = await computeProgress(userId, courseId);
+      if (progress.percent === 100) {
+        try {
+          const course = await prisma.course.findUnique({ where: { id: courseId } });
+          await issueCertificate(userId, courseId);
+          await awardBadge(userId, 'course_complete', courseId, course?.title ?? '');
+        } catch (err) {
+          request.log.error({ err }, 'certificate/badge issuance failed');
+        }
+      }
+      return { progress };
     },
   );
 

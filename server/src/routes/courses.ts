@@ -112,6 +112,30 @@ export function registerCourseRoutes(app: FastifyInstance) {
       const canSeeContent = isOwnerOrAdmin || isEnrolled;
       const progress =
         isEnrolled && request.user ? await computeProgress(request.user.userId, course.id) : null;
+
+      const isSequential = course.accessMode === 'SEQUENTIAL' && !isOwnerOrAdmin && isEnrolled;
+      const completedSet = new Set(progress?.completedLessonIds ?? []);
+      const lockedLessonIds = new Set<string>();
+      if (isSequential) {
+        let sawIncomplete = false;
+        for (const module of course.modules) {
+          const publishedLessons = module.lessons
+            .filter((l) => l.status === 'PUBLISHED')
+            .sort((a, b) => a.order - b.order);
+          for (const l of publishedLessons) {
+            if (completedSet.has(l.id)) {
+              // Tamamlanmış ders açık kalır
+            } else if (!sawIncomplete) {
+              // İlk tamamlanmamış ders aktiftir
+              sawIncomplete = true;
+            } else {
+              // Sonraki tüm dersler kilitlidir
+              lockedLessonIds.add(l.id);
+            }
+          }
+        }
+      }
+
       return {
         course: {
           ...toPublicCourse(course),
@@ -125,15 +149,19 @@ export function registerCourseRoutes(app: FastifyInstance) {
                 lessons: module.lessons
                   .filter((lesson) => isOwnerOrAdmin || lesson.status === 'PUBLISHED')
                   .sort((a, b) => a.order - b.order)
-                  .map((lesson) => ({
-                    id: lesson.id,
-                    title: lesson.title,
-                    description: lesson.description,
-                    contentType: lesson.contentType,
-                    contentUrl: lesson.contentUrl,
-                    order: lesson.order,
-                    status: lesson.status,
-                  })),
+                  .map((lesson) => {
+                    const locked = lockedLessonIds.has(lesson.id);
+                    return {
+                      id: lesson.id,
+                      title: lesson.title,
+                      description: locked ? null : lesson.description,
+                      contentType: lesson.contentType,
+                      contentUrl: locked ? null : lesson.contentUrl,
+                      order: lesson.order,
+                      status: lesson.status,
+                      isLocked: locked,
+                    };
+                  }),
               }))
             : [],
         },

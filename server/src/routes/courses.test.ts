@@ -654,4 +654,73 @@ describe('course routes', () => {
       expect(response.json().error.code).toBe('ENROLLMENT_NOT_FOUND');
     });
   });
+
+  describe('sequential lock content hiding', () => {
+    it('hides content of locked lessons from students but not from admins', async () => {
+      const passwordHash = await bcrypt.hash('sifre123', 12);
+      await prisma.user.create({
+        data: { email: 'admin@example.com', passwordHash, name: 'Yönetici', role: 'ADMIN' },
+      });
+      const adminToken = (
+        await app.inject({
+          method: 'POST',
+          url: '/api/v1/auth/login',
+          payload: { email: 'admin@example.com', password: 'sifre123' },
+        })
+      ).json().token;
+      const student = await prisma.user.findUniqueOrThrow({ where: { email: 'student@example.com' } });
+      const course = await prisma.course.create({
+        data: {
+          title: 'Sıralı Kurs',
+          description: 'Açıklama',
+          category: 'Test',
+          level: 'Başlangıç',
+          accessMode: 'SEQUENTIAL',
+          status: 'PUBLISHED',
+        },
+      });
+      const mod = await prisma.module.create({
+        data: { courseId: course.id, title: 'Modül', order: 1 },
+      });
+      const lessons = [];
+      for (let i = 1; i <= 3; i++) {
+        lessons.push(
+          await prisma.lesson.create({
+            data: {
+              moduleId: mod.id,
+              title: `Ders ${i}`,
+              order: i,
+              status: 'PUBLISHED',
+              contentType: 'LINK',
+              contentUrl: `https://example.com/${i}`,
+              description: `Gizli içerik ${i}`,
+            },
+          }),
+        );
+      }
+      await prisma.enrollment.create({
+        data: { userId: student.id, courseId: course.id, method: 'SELF' },
+      });
+      await prisma.lessonProgress.create({
+        data: { userId: student.id, lessonId: lessons[0].id },
+      });
+
+      const get = async (token: string) =>
+        (
+          await app.inject({
+            method: 'GET',
+            url: `/api/v1/courses/${course.id}`,
+            headers: { authorization: `Bearer ${token}` },
+          })
+        ).json().course.modules[0].lessons;
+
+      const s = await get(studentToken);
+      expect(s[0]).toMatchObject({ isLocked: false, contentUrl: 'https://example.com/1', description: 'Gizli içerik 1' });
+      expect(s[1]).toMatchObject({ isLocked: false, contentUrl: 'https://example.com/2', description: 'Gizli içerik 2' });
+      expect(s[2]).toMatchObject({ isLocked: true, contentUrl: null, description: null });
+
+      const a = await get(adminToken);
+      expect(a[2]).toMatchObject({ isLocked: false, contentUrl: 'https://example.com/3', description: 'Gizli içerik 3' });
+    });
+  });
 });

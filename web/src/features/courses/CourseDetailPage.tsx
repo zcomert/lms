@@ -85,40 +85,60 @@ export function CourseDetailPage() {
             </div>
           )}
 
+          {course.isEnrolled && course.progress?.percent === 100 && (
+            <p className={styles.completeBanner} role="status">
+              <Icon name="workspace_premium" filled />
+              <span>
+                Tebrikler! Bu kursu tamamladın. Sertifikan <Link to="/profil">profilinde</Link>.
+              </span>
+            </p>
+          )}
+
           {canManage && (
-            <Panel title="Quiz Notları" icon="grading" className={styles.gradesPanel}>
-              {quizLessons.length === 0 ? (
-                <Text role="body-md" tone="muted" as="p">
-                  Bu kursta henüz quiz dersi yok.
-                </Text>
-              ) : (
-                <ul className={styles.gradeList}>
-                  {quizLessons.map(({ lesson, moduleTitle }) => (
-                    <li key={lesson.id} className={styles.gradeItem}>
-                      <div className={styles.gradeInfo}>
-                        <Text role="body-md" as="p" tone="main">
-                          {lesson.title}
-                        </Text>
-                        <Text role="body-sm" as="p" tone="muted">
-                          {moduleTitle}
-                          {lesson.status !== 'PUBLISHED' ? ' · Taslak' : ''}
-                        </Text>
-                      </div>
-                      <Link
-                        to={`/yonetim/kurslar/${course.id}/dersler/${lesson.id}/notlar`}
-                        className={styles.gradeLink}
-                        aria-label={`Notları gir: ${lesson.title}`}
-                      >
-                        <Icon name="grading" size="sm" />
-                        <Text role="label-md" as="span" tone="secondary">
-                          Notları gir
-                        </Text>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Panel>
+            <>
+              <div style={{ marginBottom: 'var(--space-md)' }}>
+                <Link to={`/yonetim/kurslar/${course.id}/analitik`} className={styles.analyticsLink}>
+                  <Icon name="analytics" size="sm" />
+                  <Text role="label-md" as="span">
+                    Öğrenme Analitiği & Raporlar
+                  </Text>
+                </Link>
+              </div>
+
+              <Panel title="Quiz Notları" icon="grading" className={styles.gradesPanel}>
+                {quizLessons.length === 0 ? (
+                  <Text role="body-md" tone="muted" as="p">
+                    Bu kursta henüz quiz dersi yok.
+                  </Text>
+                ) : (
+                  <ul className={styles.gradeList}>
+                    {quizLessons.map(({ lesson, moduleTitle }) => (
+                      <li key={lesson.id} className={styles.gradeItem}>
+                        <div className={styles.gradeInfo}>
+                          <Text role="body-md" as="p" tone="main">
+                            {lesson.title}
+                          </Text>
+                          <Text role="body-sm" as="p" tone="muted">
+                            {moduleTitle}
+                            {lesson.status !== 'PUBLISHED' ? ' · Taslak' : ''}
+                          </Text>
+                        </div>
+                        <Link
+                          to={`/yonetim/kurslar/${course.id}/dersler/${lesson.id}/notlar`}
+                          className={styles.gradeLink}
+                          aria-label={`Notları gir: ${lesson.title}`}
+                        >
+                          <Icon name="grading" size="sm" />
+                          <Text role="label-md" as="span" tone="secondary">
+                            Notları gir
+                          </Text>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Panel>
+            </>
           )}
 
           {!course.isEnrolled && !canManage && !userLoading && (
@@ -151,28 +171,47 @@ export function CourseDetailPage() {
                     <ul className={styles.lessonList}>
                       {module.lessons.map((lesson) => (
                         <li key={lesson.id} className={styles.lessonItem}>
-                          <Link to={`/kurslarim/${course.id}/ders/${lesson.id}`} className={styles.lessonLink}>
-                            <div className={styles.lessonHeader}>
-                              <Icon name={CONTENT_TYPE_ICONS[lesson.contentType]} size="sm" />
-                              <Text role="body-md" as="span">
-                                {lesson.title}
-                              </Text>
-                              <Badge tone={CONTENT_TYPE_BADGE_TONES[lesson.contentType]} variant="soft">
-                                {CONTENT_TYPE_LABELS[lesson.contentType]}
-                              </Badge>
-                              {completedIds.has(lesson.id) && (
-                                <>
-                                  <Icon name="check_circle" size="sm" filled className={styles.doneIcon} />
-                                  <span className={styles.visuallyHidden}>tamamlandı</span>
-                                </>
+                          {lesson.isLocked ? (
+                            <div className={styles.lessonLocked} title="Önceki dersleri tamamlamalısınız">
+                              <div className={styles.lessonHeader}>
+                                <Icon name="lock" size="sm" />
+                                <Text role="body-md" as="span" tone="muted">
+                                  {lesson.title}
+                                </Text>
+                                <Badge tone="neutral" variant="soft">
+                                  Kilitli
+                                </Badge>
+                              </div>
+                              {lesson.description && (
+                                <Text role="body-sm" tone="muted" as="p" className={styles.lessonDescription}>
+                                  {lesson.description}
+                                </Text>
                               )}
                             </div>
-                            {lesson.description && (
-                              <Text role="body-sm" tone="muted" as="p" className={styles.lessonDescription}>
-                                {lesson.description}
-                              </Text>
-                            )}
-                          </Link>
+                          ) : (
+                            <Link to={`/kurslarim/${course.id}/ders/${lesson.id}`} className={styles.lessonLink}>
+                              <div className={styles.lessonHeader}>
+                                <Icon name={CONTENT_TYPE_ICONS[lesson.contentType]} size="sm" />
+                                <Text role="body-md" as="span">
+                                  {lesson.title}
+                                </Text>
+                                <Badge tone={CONTENT_TYPE_BADGE_TONES[lesson.contentType]} variant="soft">
+                                  {CONTENT_TYPE_LABELS[lesson.contentType]}
+                                </Badge>
+                                {completedIds.has(lesson.id) && (
+                                  <>
+                                    <Icon name="check_circle" size="sm" filled className={styles.doneIcon} />
+                                    <span className={styles.visuallyHidden}>tamamlandı</span>
+                                  </>
+                                )}
+                              </div>
+                              {lesson.description && (
+                                <Text role="body-sm" tone="muted" as="p" className={styles.lessonDescription}>
+                                  {lesson.description}
+                                </Text>
+                              )}
+                            </Link>
+                          )}
                         </li>
                       ))}
                       {module.lessons.length === 0 && (

@@ -321,10 +321,20 @@ describe('progress routes', () => {
     expect(progress.percent).toBe(50);
   });
 
-  it('does not gate completion order in SEQUENTIAL courses', async () => {
+  it('enforces completion order in SEQUENTIAL courses and rejects locked lessons', async () => {
     await prisma.course.update({ where: { id: courseId }, data: { accessMode: 'SEQUENTIAL' } });
-    const res = await complete(lessonIds[2]);
-    expect(res.statusCode).toBe(200);
-    expect(res.json().progress.completedLessonIds).toEqual([lessonIds[2]]);
+    const lockedRes = await complete(lessonIds[2]);
+    expect(lockedRes.statusCode).toBe(403);
+    expect(lockedRes.json().error.code).toBe('LESSON_LOCKED');
+
+    const res0 = await complete(lessonIds[0]);
+    expect(res0.statusCode).toBe(200);
+
+    const res1 = await complete(lessonIds[1]);
+    expect(res1.statusCode).toBe(200);
+
+    const res2 = await complete(lessonIds[2]);
+    expect(res2.statusCode).toBe(200);
+    expect(res2.json().progress.percent).toBe(100);
   });
 });

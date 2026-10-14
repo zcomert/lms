@@ -201,7 +201,7 @@ Body (en az bir alan): `{ "name"?: string, "email"?: string, "roles"?: string[],
 
 ## Progress (Kurs tamamlanma oranı)
 
-Tüm uç noktalar giriş gerektirir (herhangi bir rol) ve kullanıcının dersin bağlı olduğu kursa kayıtlı olmasını şart koşar. Yalnızca `status: "PUBLISHED"` dersler sayılır. `percent = totalLessons === 0 ? 0 : Math.round(100 * completedCount / totalLessons)`. `SEQUENTIAL` kurslarda sıralı tamamlama zorunlu değildir (kilit yok).
+Tüm uç noktalar giriş gerektirir (herhangi bir rol) ve kullanıcının dersin bağlı olduğu kursa kayıtlı olmasını şart koşar. Yalnızca `status: "PUBLISHED"` dersler sayılır. `percent = totalLessons === 0 ? 0 : Math.round(100 * completedCount / totalLessons)`. `SEQUENTIAL` kurslarda sıralı tamamlama kuralı zorunludur: öğrenci önceki yayınlanmış dersleri tamamlamadan sonraki dersleri tamamlayamaz (`403 LESSON_LOCKED`). Yöneticiler ve kursa atanmış eğitmenler için bu kilit uygulanmaz.
 
 `progress` nesnesi: `{ "courseId": string, "percent": number, "completedLessonIds": string[], "completedCount": number, "totalLessons": number }` (`completedLessonIds` yalnızca `PUBLISHED` dersleri içerir).
 
@@ -211,6 +211,7 @@ Gövde yok (boş gövde `Content-Type: application/json` ile de kabul edilir). D
 200: `{ "progress": { ... } }`
 401: `{ "error": { "code": "UNAUTHORIZED", "message": "Giriş yapmanız gerekiyor." } }`
 403: `{ "error": { "code": "NOT_ENROLLED", "message": "Bu kursa kayıtlı değilsiniz." } }`
+403: Sıralı erişim kilitli ise → `{ "error": { "code": "LESSON_LOCKED", "message": "Bu ders kilitli. Sıralı erişim modunda önceki dersleri tamamlamalısınız." } }`
 404: ders yoksa veya `DRAFT` ise → `{ "error": { "code": "NOT_FOUND", "message": "Ders bulunamadı." } }`
 
 ### DELETE /api/v1/lessons/:id/completion
@@ -683,3 +684,101 @@ Body: `{ "questionIds": string[] }`: sınavdaki soruların tamamı, her biri bir
 ### PUT /api/v1/exams/:id/candidates
 Body: `{ "userIds": string[] }`: seçili öğrenci listesini tümüyle değiştirir; hepsi kursa kayıtlı olmalıdır (aksi 400).
 200: GET ile aynı · 409 `EXAM_NOT_PUBLISHABLE` (yayındaki `SELECTED` sınavda boş liste)
+
+## Course Analytics (Kurs Öğrenme Analitiği ve Dışa Aktarma)
+
+Yalnızca `ADMIN` ve kursa atanmış `INSTRUCTOR` erişebilir (aksi halde 401/403).
+
+### GET /api/v1/courses/:id/analytics
+Header: `Authorization: Bearer <token>`
+200:
+```json
+{
+  "course": { "id": "string", "title": "string", "accessMode": "SEQUENTIAL" | "FREE" },
+  "summary": {
+    "totalEnrolled": 24,
+    "notStartedCount": 4,
+    "inProgressCount": 15,
+    "completedCount": 5,
+    "completionRate": 21,
+    "averagePercent": 48,
+    "totalStudySeconds": 84200,
+    "averageStudyMinutes": 58
+  },
+  "dropoffAnalysis": [
+    {
+      "lessonId": "string",
+      "lessonTitle": "string",
+      "moduleTitle": "string",
+      "order": 1,
+      "completedCount": 20,
+      "completedPercent": 83,
+      "dropoffCount": 5,
+      "dropoffPercent": 21
+    }
+  ],
+  "students": [
+    {
+      "userId": "string",
+      "name": "string",
+      "email": "string",
+      "enrolledAt": "2026-10-10T12:00:00.000Z",
+      "completedCount": 5,
+      "totalLessons": 10,
+      "percent": 50,
+      "studySeconds": 3600,
+      "studyMinutes": 60,
+      "lastCompletedLesson": "Ders 5: Ağaçlar",
+      "status": "IN_PROGRESS"
+    }
+  ]
+}
+```
+401: `UNAUTHORIZED` · 403: `FORBIDDEN` · 404: `NOT_FOUND` (kurs bulunamadı)
+
+### GET /api/v1/courses/:id/analytics/export
+Header: `Authorization: Bearer <token>`
+Yanıt: `Content-Type: text/csv; charset=utf-8` ve `Content-Disposition: attachment; filename="kurs-analitik-{courseId}.csv"`
+Dosya içeriği `\uFEFF` (UTF-8 BOM) ile başlar ve noktalı virgül (`;`) ile ayrılmış sütunlardan oluşur:
+`Öğrenci Adı;E-posta;Kayıt Tarihi;Tamamlanan Ders;Toplam Ders;İlerleme (%);Çalışma Süresi (Dk);Son Tamamlanan Ders;Durum`
+
+## Scheduler (Zamanlanmış / Aralıklı Arka Plan İşleri)
+
+Yalnızca `ADMIN` rolü erişebilir.
+
+### GET /api/v1/admin/scheduler
+Header: `Authorization: Bearer <token>` (rol: ADMIN)
+200:
+```json
+{
+  "isRunning": true,
+  "jobs": [
+    {
+      "name": "sync-announcements-exams",
+      "description": "Duyuru ve sınav durumlarını senkronize eder.",
+      "intervalMs": 300000,
+      "status": "IDLE" | "RUNNING" | "SUCCESS" | "ERROR",
+      "lastRun": "2026-10-14T11:50:00.000Z" | null,
+      "lastDurationMs": 14 | null,
+      "lastError": null | string,
+      "lastResult": object | null,
+      "runCount": 1
+    }
+  ]
+}
+```
+401: `UNAUTHORIZED` · 403: `FORBIDDEN`
+
+### POST /api/v1/admin/scheduler/run/:name
+Header: `Authorization: Bearer <token>` (rol: ADMIN)
+İlgili görevi anında tetikler.
+200: `{ "job": "sync-announcements-exams", "success": true, "result": { ... } }`
+401: `UNAUTHORIZED` · 403: `FORBIDDEN` · 404: `NOT_FOUND`
+
+### POST /api/v1/admin/scheduler/run-all
+Header: `Authorization: Bearer <token>` (rol: ADMIN)
+Tüm zamanlanmış işleri sırayla hemen çalıştırır.
+200: `{ "success": true, "results": { [jobName]: { ... } } }`
+401: `UNAUTHORIZED` · 403: `FORBIDDEN`
+
+

@@ -44,6 +44,10 @@ model User {
   questionsCreated     Question[]     @relation("QuestionsCreated")
   examsCreated         Exam[]         @relation("ExamsCreated")
   examCandidacies      ExamCandidate[]
+  lessonComments       LessonComment[]   @relation("LessonCommentsAuthored")
+  commentReactions     CommentReaction[] @relation("CommentReactionsGiven")
+  certificates         Certificate[]     @relation("UserCertificates")
+  badges               UserBadge[]       @relation("UserBadges")
 }
 
 model Course {
@@ -63,6 +67,8 @@ model Course {
   announcements Announcement[]
   questionBanks QuestionBank[]
   exams         Exam[]
+  certificates  Certificate[]
+  badges        UserBadge[]
   comments      CourseComment[]
 }
 
@@ -89,6 +95,7 @@ model Lesson {
   lessonProgress LessonProgress[]
   quizGrades  QuizGrade[]
   lessonFeedback LessonFeedback[]
+  comments    LessonComment[]
 }
 
 /// Ders başına kullanıcı geri bildirimi: beğeni ve/veya 1–5 puan. İkisi de boşsa satır tutulmaz.
@@ -374,5 +381,66 @@ model ExamCandidate {
   createdAt DateTime @default(now())
 
   @@unique([examId, userId])
+  @@index([userId])
+}
+
+model LessonComment {
+  id        String   @id @default(cuid())
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation("LessonCommentsAuthored", fields: [userId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  reactions CommentReaction[]
+
+  @@index([lessonId, createdAt])
+}
+
+model CommentReaction {
+  id        String        @id @default(cuid())
+  commentId String
+  comment   LessonComment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation("CommentReactionsGiven", fields: [userId], references: [id], onDelete: Cascade)
+  // Allowed literals: "like" | "love" | "insightful" | "celebrate"
+  emoji     String
+  createdAt DateTime      @default(now())
+
+  @@unique([commentId, userId, emoji])
+  @@index([commentId])
+}
+
+model Certificate {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  userId      String
+  user        User     @relation("UserCertificates", fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  // Snapshot at issue time so later name/title edits don't change issued certificates.
+  studentName String
+  courseTitle String
+  issuedAt    DateTime @default(now())
+
+  @@unique([userId, courseId])
+  @@index([userId])
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation("UserBadges", fields: [userId], references: [id], onDelete: Cascade)
+  // Allowed literals: "course_complete" | "streak_7"
+  type      String
+  // For "course_complete" this is the course; null for "streak_7".
+  courseId  String?
+  course    Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  // Display snapshot, e.g. the course title at the moment the badge was earned.
+  label     String
+  earnedAt  DateTime @default(now())
+
+  @@unique([userId, type, courseId])
   @@index([userId])
 }

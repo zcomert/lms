@@ -10,12 +10,15 @@ import { AnnouncementsPage, AnnouncementDetailPage, AnnouncementsAdminPage } fro
 import { AssignmentsPage } from '../features/assignments';
 import { ExamsPage } from '../features/exams';
 import { LoginPage, RegisterPage } from '../features/auth';
+import { CertificateVerifyPage } from '../features/certificates';
+import { PublicAchievementsPage } from '../features/achievements';
 import { ProfilePage } from '../features/profile';
 import {
   AdminCoursesPage,
   CourseStudentsPage,
   CourseContentPage,
   QuizGradesPage,
+  CourseAnalyticsPage,
 } from '../features/admin/courses';
 import { AdminNavItemsPage } from '../features/admin/nav-items';
 import { AdminUsersPage } from '../features/admin/users';
@@ -71,6 +74,7 @@ export const router = createBrowserRouter([
             // Quiz notlarını yöneticiler ve kursa atanmış eğitmenler girer (sunucu ayrıca yetki denetler).
             element: <RequireRole allow={['ADMIN', 'INSTRUCTOR']} />,
             children: [
+              { path: 'yonetim/kurslar/:id/analitik', element: <CourseAnalyticsPage /> },
               { path: 'yonetim/kurslar/:courseId/dersler/:lessonId/notlar', element: <QuizGradesPage /> },
               { path: 'yonetim/duyurular', element: <AnnouncementsAdminPage /> },
               { path: 'yonetim/sinavlar', element: <AdminExamsPage /> },
@@ -98,4 +102,7 @@ export const router = createBrowserRouter([
       { path: 'kayit', element: <RegisterPage /> },
     ],
   },
+  // Herkese açık sayfalar: oturum gerektirmez, AppShell dışındadır.
+  { path: 'dogrula/:code', element: <CertificateVerifyPage /> },
+  { path: 'basarilar/:userId', element: <PublicAchievementsPage /> },
 ]);

@@ -192,3 +192,14 @@
   white-space: nowrap;
   border: 0;
 }
+
+.curriculumLocked {
+  opacity: 0.6;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.curriculumLocked:hover {
+  background-color: transparent;
+}
+

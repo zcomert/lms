@@ -158,3 +158,50 @@
   white-space: nowrap;
   border: 0;
 }
+
+.completeBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--color-state-success);
+  background-color: var(--color-state-success-soft);
+  border-radius: var(--radius-default);
+}
+
+.completeBanner a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  border-radius: var(--radius-sm);
+}
+
+.completeBanner a:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.lessonLocked {
+  opacity: 0.65;
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.analyticsLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-surface-container);
+  color: var(--color-secondary);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background var(--transition-fast);
+  margin-top: var(--space-sm);
+}
+
+.analyticsLink:hover {
+  background: var(--color-surface-container-high);
+}

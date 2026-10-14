@@ -195,6 +195,7 @@ export interface CourseLessonSummary {
   contentUrl: string | null;
   order: number;
   status: string;
+  isLocked?: boolean;
 }
 
 export interface CourseModuleSummary {
@@ -470,4 +471,48 @@ export interface MyExam {
   passingScore: number | null;
   questionCount: number;
   availability: ExamAvailability;
+}
+
+export type ReactionKey = 'like' | 'love' | 'insightful' | 'celebrate';
+
+export interface CommentReactionState {
+  count: number;
+  mine: boolean;
+}
+
+export interface LessonComment {
+  id: string;
+  body: string;
+  createdAt: string;
+  updatedAt: string;
+  author: {
+    id: string;
+    name: string;
+    avatarUrl: string | null;
+    role: 'STUDENT' | 'INSTRUCTOR' | 'ADMIN';
+  };
+  canDelete: boolean;
+  reactions: Record<ReactionKey, CommentReactionState>;
+}
+
+export interface Certificate {
+  id: string;
+  code: string;
+  courseId: string;
+  courseTitle: string;
+  studentName: string;
+  issuedAt: string;
+}
+
+export type BadgeType = 'course_complete' | 'streak_7';
+
+export interface AchievementBadge {
+  id: string;
+  type: BadgeType;
+  courseId: string | null;
+  label: string;
+  name: string;
+  icon: string;
+  description: string;
+  earnedAt: string;
 }

@@ -11,6 +11,7 @@ import { registerProgressRoutes } from './routes/progress.js';
 import { registerActivityRoutes } from './routes/activity.js';
 import { registerGradeRoutes } from './routes/grades.js';
 import { registerFeedbackRoutes } from './routes/feedback.js';
+import { registerCommentRoutes } from './routes/comments.js';
 import { registerCourseCommentRoutes } from './routes/courseComments.js';
 import { registerCalendarRoutes } from './routes/calendar.js';
 import { registerAnnouncementRoutes } from './routes/announcements.js';
@@ -19,8 +20,16 @@ import { registerExamRoutes } from './routes/exams.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerAdminUserRoutes } from './routes/adminUsers.js';
 import { registerNavItemRoutes } from './routes/nav-items.js';
+import { registerCertificateRoutes } from './routes/certificates.js';
+import { registerCourseAnalyticsRoutes } from './routes/courseAnalytics.js';
+import { registerAdminSchedulerRoutes } from './routes/adminScheduler.js';
+import { scheduler } from './scheduler/index.js';
 
-export async function buildApp(): Promise<FastifyInstance> {
+export interface BuildAppOptions {
+  enableScheduler?: boolean;
+}
+
+export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyInstance> {
   const app = Fastify({ logger: true });
   app.setErrorHandler(errorHandler);
   app.setNotFoundHandler((request, reply) => {
@@ -51,6 +60,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   registerActivityRoutes(app);
   registerGradeRoutes(app);
   registerFeedbackRoutes(app);
+  registerCommentRoutes(app);
   registerCourseCommentRoutes(app);
   registerCalendarRoutes(app);
   registerAnnouncementRoutes(app);
@@ -59,6 +69,18 @@ export async function buildApp(): Promise<FastifyInstance> {
   registerUserRoutes(app);
   registerAdminUserRoutes(app);
   registerNavItemRoutes(app);
+  registerCertificateRoutes(app);
+  registerCourseAnalyticsRoutes(app);
+  registerAdminSchedulerRoutes(app);
+
+  const shouldStartScheduler = options.enableScheduler ?? (process.env.NODE_ENV !== 'test');
+  if (shouldStartScheduler) {
+    scheduler.start(app.log);
+  }
+
+  app.addHook('onClose', async () => {
+    scheduler.stop();
+  });
 
   await app.ready();
   return app;

@@ -6,6 +6,7 @@ import { useLessonAutoComplete } from './useLessonAutoComplete';
 import { useStudyTracker } from './useStudyTracker';
 import { useMyLessonGrade } from './useMyLessonGrade';
 import { LessonFeedback } from './LessonFeedback';
+import { LessonComments } from './LessonComments';
 import { CONTENT_TYPE_ICONS } from './contentType';
 import type { CourseLessonSummary, CourseModuleSummary } from '../../types';
 import styles from './LessonDetailPage.module.css';
@@ -39,11 +40,15 @@ export function LessonDetailPage() {
   const lessonExists = Boolean(
     lessonId && course?.modules.some((module) => module.lessons.some((lesson) => lesson.id === lessonId)),
   );
+  const currentLessonSummary = course?.modules.flatMap((m) => m.lessons).find((l) => l.id === lessonId);
+  const isCurrentLessonLocked = Boolean(currentLessonSummary?.isLocked);
   const alreadyCompleted = Boolean(lessonId && course?.progress?.completedLessonIds.includes(lessonId));
-  useLessonAutoComplete(lessonId, Boolean(course?.isEnrolled) && lessonExists && !alreadyCompleted, (id) =>
-    setLessonCompleted(id, true),
+  useLessonAutoComplete(
+    lessonId,
+    Boolean(course?.isEnrolled) && lessonExists && !alreadyCompleted && !isCurrentLessonLocked,
+    (id) => setLessonCompleted(id, true),
   );
-  useStudyTracker(lessonId, Boolean(course?.isEnrolled) && lessonExists);
+  useStudyTracker(lessonId, Boolean(course?.isEnrolled) && lessonExists && !isCurrentLessonLocked);
 
   if (loading) {
     return (
@@ -123,6 +128,7 @@ export function LessonDetailPage() {
   const active = flattened[activeIndex];
   const previous = activeIndex > 0 ? flattened[activeIndex - 1] : null;
   const next = activeIndex < flattened.length - 1 ? flattened[activeIndex + 1] : null;
+  const firstUnlocked = flattened.find((f) => !f.lesson.isLocked) ?? flattened[0];
 
   const completedIds = new Set(course.progress?.completedLessonIds ?? []);
 
@@ -130,6 +136,8 @@ export function LessonDetailPage() {
     if (!entry) return;
     navigate(`/kurslarim/${course.id}/ders/${entry.lesson.id}`);
   };
+
+  const isNextLocked = Boolean(next?.lesson.isLocked);
 
   return (
     <PageContainer>
@@ -166,9 +174,26 @@ export function LessonDetailPage() {
             </Text>
           )}
 
-          <LessonContent lesson={active.lesson} />
-
-          <LessonFeedback lessonId={active.lesson.id} />
+          {active.lesson.isLocked ? (
+            <Card padding="lg" elevation="1" className={styles.lockedCard}>
+              <Icon name="lock" size="lg" />
+              <Text role="title-md" as="h2" tone="main">
+                Bu ders kilitli
+              </Text>
+              <Text role="body-md" tone="muted" as="p" className={styles.lockedMessage}>
+                Bu kurs Sıralı Erişim modundadır. Bu derse erişebilmek için lütfen önceki dersleri sırasıyla tamamlayın.
+              </Text>
+              <Button variant="primary" onClick={() => goTo(firstUnlocked)}>
+                Açık Olan Derse Git
+              </Button>
+            </Card>
+          ) : (
+            <>
+              <LessonContent lesson={active.lesson} />
+              <LessonFeedback lessonId={active.lesson.id} />
+              <LessonComments lessonId={active.lesson.id} />
+            </>
+          )}
 
           {progressError && (
             <Text role="body-sm" tone="error" as="p" className={styles.completion}>
@@ -180,8 +205,14 @@ export function LessonDetailPage() {
             <Button variant="secondary" iconStart="chevron_left" onClick={() => goTo(previous)} disabled={!previous}>
               Önceki Ders
             </Button>
-            <Button variant="primary" iconEnd="chevron_right" onClick={() => goTo(next)} disabled={!next}>
-              Sonraki Ders
+            <Button
+              variant="primary"
+              iconEnd={isNextLocked ? 'lock' : 'chevron_right'}
+              onClick={() => goTo(next)}
+              disabled={!next || isNextLocked}
+              title={isNextLocked ? 'Sonraki ders kilitli. Önce mevcut dersi tamamlayın.' : undefined}
+            >
+              {isNextLocked ? 'Sonraki Ders (Kilitli)' : 'Sonraki Ders'}
             </Button>
           </div>
         </div>
@@ -210,26 +241,38 @@ export function LessonDetailPage() {
                       .sort((a, b) => a.order - b.order)
                       .map((lesson) => (
                         <li key={lesson.id}>
-                          <Link
-                            to={`/kurslarim/${course.id}/ders/${lesson.id}`}
-                            className={[
-                              styles.lessonLink,
-                              lesson.id === active.lesson.id ? styles.lessonLinkActive : null,
-                            ]
-                              .filter(Boolean)
-                              .join(' ')}
-                          >
-                            <Icon name={CONTENT_TYPE_ICONS[lesson.contentType]} size="sm" />
-                            <Text role="body-sm" as="span" className={styles.lessonTitle}>
-                              {lesson.title}
-                            </Text>
-                            {completedIds.has(lesson.id) && (
-                              <>
-                                <Icon name="check_circle" size="sm" filled className={styles.doneIcon} />
-                                <span className={styles.visuallyHidden}>tamamlandı</span>
-                              </>
-                            )}
-                          </Link>
+                          {lesson.isLocked ? (
+                            <div
+                              className={`${styles.lessonLink} ${styles.curriculumLocked}`}
+                              title="Önceki dersleri tamamlamalısınız"
+                            >
+                              <Icon name="lock" size="sm" />
+                              <Text role="body-sm" as="span" className={styles.lessonTitle}>
+                                {lesson.title}
+                              </Text>
+                            </div>
+                          ) : (
+                            <Link
+                              to={`/kurslarim/${course.id}/ders/${lesson.id}`}
+                              className={[
+                                styles.lessonLink,
+                                lesson.id === active.lesson.id ? styles.lessonLinkActive : null,
+                              ]
+                                .filter(Boolean)
+                                .join(' ')}
+                            >
+                              <Icon name={CONTENT_TYPE_ICONS[lesson.contentType]} size="sm" />
+                              <Text role="body-sm" as="span" className={styles.lessonTitle}>
+                                {lesson.title}
+                              </Text>
+                              {completedIds.has(lesson.id) && (
+                                <>
+                                  <Icon name="check_circle" size="sm" filled className={styles.doneIcon} />
+                                  <span className={styles.visuallyHidden}>tamamlandı</span>
+                                </>
+                              )}
+                            </Link>
+                          )}
                         </li>
                       ))}
                   </ul>

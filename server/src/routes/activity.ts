@@ -3,7 +3,8 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { requireAuth } from '../middleware/rbac.js';
 import { AppError } from '../errors.js';
-import { assertEnrolled, loadPublishedLesson } from '../lib/lessonAccess.js';
+import { awardBadge } from '../lib/badges.js';
+import { assertEnrolled, loadPublishedLesson, assertLessonUnlocked } from '../lib/lessonAccess.js';
 import {
   ACTIVITY_TIMEZONE,
   MAX_HEARTBEAT_SECONDS,
@@ -46,6 +47,7 @@ export function registerActivityRoutes(app: FastifyInstance) {
       const lesson = await loadPublishedLesson(lessonId);
       const courseId = lesson.module.courseId;
       await assertEnrolled(userId, courseId);
+      await assertLessonUnlocked(userId, lesson.id, request.user);
 
       const recorded = Math.min(seconds, MAX_HEARTBEAT_SECONDS);
       const key = { userId, day: dayKey(new Date()), courseId, category: categoryFor(lesson.contentType) };
@@ -68,6 +70,19 @@ export function registerActivityRoutes(app: FastifyInstance) {
         } else {
           throw err;
         }
+      }
+
+      try {
+        const today = dayKey(new Date());
+        const activeDayRows = await prisma.studyActivity.groupBy({
+          by: ['day'],
+          where: { userId, day: { gte: addDays(today, -STREAK_LOOKBACK_DAYS), lte: today }, seconds: { gt: 0 } },
+        });
+        if (computeStreak(new Set(activeDayRows.map((row) => row.day)), today) >= 7) {
+          await awardBadge(userId, 'streak_7', null, '7 Gün Seri');
+        }
+      } catch (err) {
+        request.log.error({ err }, 'streak badge check failed');
       }
 
       return { recorded };
