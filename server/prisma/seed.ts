@@ -224,6 +224,7 @@ async function main() {
       { path: '/yonetim/duyurular', label: 'Duyuru Yönetimi', icon: 'edit_note', order: 9, roles: 'ADMIN,INSTRUCTOR' },
       { path: '/yonetim/kullanicilar', label: 'Kullanıcı Yönetimi', icon: 'manage_accounts', order: 10, roles: 'ADMIN' },
       { path: '/yonetim/sinavlar', label: 'Sınav Yönetimi', icon: 'fact_check', order: 11, roles: 'ADMIN,INSTRUCTOR' },
+      { path: '/yonetim/odevler', label: 'Ödev Yönetimi', icon: 'assignment_turned_in', order: 11, roles: 'ADMIN,INSTRUCTOR' },
       { path: '/yonetim/soru-bankasi', label: 'Soru Bankası', icon: 'library_books', order: 12, roles: 'ADMIN,INSTRUCTOR' },
     ],
   });
@@ -269,6 +270,33 @@ async function main() {
 
   // Öğrenci hesabı aynı zamanda yönetici (roles: STUDENT,ADMIN); genel bankanın sahibi olarak kullanılır.
   await seedExamData(prisma, { courseId: course.id, instructorId: instructor.id, adminId: student.id });
+
+  const daysFromNow = (days: number) => new Date(Date.now() + days * 24 * 60 * 60 * 1000);
+  await prisma.assignment.createMany({
+    data: [
+      {
+        courseId: course.id,
+        title: 'Veri Yapıları Proje Ödevi 2',
+        description: 'Dengeli Ağaç (AVL Tree) Gerçekleştirimi',
+        type: 'HOMEWORK',
+        status: 'PUBLISHED',
+        dueAt: daysFromNow(2),
+        allowLateSubmission: true,
+        latePenaltyPercent: 10,
+        createdById: instructor.id,
+      },
+      {
+        courseId: course.id,
+        title: 'Yapay Zekâ Mini Proje Teslimi',
+        description: 'Lineer Regresyon ile Tahminleme Notebook’u',
+        type: 'LAB',
+        status: 'PUBLISHED',
+        dueAt: daysFromNow(5),
+        allowLateSubmission: false,
+        createdById: instructor.id,
+      },
+    ],
+  });
 
   console.log('Seed tamamlandı.');
 }

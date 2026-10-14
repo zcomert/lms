@@ -38,20 +38,22 @@ export interface LessonInput {
 }
 
 interface CourseDetailResponse {
-  modules: Array<{
-    id: string;
-    title: string;
-    order: number;
-    lessons: Array<{
+  course: {
+    modules: Array<{
       id: string;
       title: string;
-      description: string | null;
-      contentType: ContentType;
-      contentUrl: string | null;
       order: number;
-      status: LessonStatus;
+      lessons: Array<{
+        id: string;
+        title: string;
+        description: string | null;
+        contentType: ContentType;
+        contentUrl: string | null;
+        order: number;
+        status: LessonStatus;
+      }>;
     }>;
-  }>;
+  };
 }
 
 /**
@@ -71,7 +73,7 @@ export function useCourseContent(courseId: string | undefined) {
     setError(null);
     return apiFetch<CourseDetailResponse>(`/api/v1/courses/${courseId}`)
       .then((result) => {
-        const sorted = [...result.modules]
+        const sorted = [...result.course.modules]
           .sort((a, b) => a.order - b.order)
           .map((module) => ({
             id: module.id,

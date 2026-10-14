@@ -123,6 +123,99 @@ export interface UpcomingTask {
   actionLabel: string;
 }
 
+export type UpcomingTaskKind = 'ASSIGNMENT' | 'EXAM';
+
+/** GET /api/v1/users/me/upcoming-tasks öğesi (ham veri; sunum alanları yok). */
+export interface UpcomingTaskRaw {
+  kind: UpcomingTaskKind;
+  id: string;
+  title: string;
+  description: string | null;
+  course: { id: string; title: string };
+  // ASSIGNMENT alanları
+  dueAt?: string;
+  assignmentType?: 'HOMEWORK' | 'LAB' | 'PROJECT';
+  isPastDue?: boolean;
+  allowLateSubmission?: boolean;
+  // EXAM alanları
+  startsAt?: string | null;
+  endsAt?: string | null;
+  durationMinutes?: number | null;
+  availability?: ExamAvailability;
+  questionCount?: number;
+}
+
+export type AssignmentType = 'HOMEWORK' | 'LAB' | 'PROJECT';
+/** Öğrencinin kendi görünümünde türetilen teslim durumu (FR-66). */
+export type MyAssignmentStatus = 'PENDING' | 'LATE' | 'SUBMITTED' | 'GRADED';
+
+export interface MyAssignmentSubmission {
+  note: string | null;
+  fileUrl: string | null;
+  fileName: string | null;
+  submittedAt: string;
+  isLate: boolean;
+  score: number | null;
+  feedback: string | null;
+}
+
+/** GET /api/v1/assignments/my öğesi. */
+export interface MyAssignment {
+  id: string;
+  course: { id: string; title: string };
+  title: string;
+  description: string | null;
+  type: AssignmentType;
+  dueAt: string;
+  allowLateSubmission: boolean;
+  maxScore: number;
+  attachmentUrl: string | null;
+  attachmentName: string | null;
+  acceptedFileTypes: string[];
+  status: MyAssignmentStatus;
+  mySubmission: MyAssignmentSubmission | null;
+}
+
+/** GET /api/v1/assignments/manage ve ilgili yönetim uç noktalarında dönen ödev nesnesi. */
+export interface ManagedAssignment {
+  id: string;
+  course: { id: string; title: string };
+  title: string;
+  description: string | null;
+  type: AssignmentType;
+  status: 'DRAFT' | 'PUBLISHED';
+  dueAt: string;
+  availableFrom: string | null;
+  allowLateSubmission: boolean;
+  latePenaltyPercent: number | null;
+  maxScore: number;
+  attachmentUrl: string | null;
+  attachmentName: string | null;
+  acceptedFileTypes: string[];
+  submissionCount: number;
+  createdBy: { id: string; name: string } | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AssignmentSubmissionRow {
+  student: { id: string; name: string; email: string; avatarUrl: string | null };
+  note: string | null;
+  fileUrl: string | null;
+  fileName: string | null;
+  submittedAt: string | null;
+  isLate: boolean;
+  score: number | null;
+  feedback: string | null;
+  gradedAt: string | null;
+}
+
+/** GET /api/v1/assignments/:id (yönetim ayrıntısı). */
+export interface ManagedAssignmentDetail {
+  assignment: ManagedAssignment;
+  submissions: AssignmentSubmissionRow[];
+}
+
 export interface Announcement {
   id: string;
   title: string;

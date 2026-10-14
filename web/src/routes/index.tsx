@@ -20,6 +20,7 @@ import {
 import { AdminNavItemsPage } from '../features/admin/nav-items';
 import { AdminUsersPage } from '../features/admin/users';
 import { AdminExamsPage, ExamEditorPage } from '../features/admin/exams';
+import { AdminAssignmentsPage, AssignmentEditorPage } from '../features/admin/assignments';
 import { QuestionBanksPage, QuestionBankDetailPage } from '../features/admin/question-banks';
 
 // Takvim, FullCalendar'ı ana pakete eklememek için ayrı parça (chunk) olarak yüklenir.
@@ -75,6 +76,8 @@ export const router = createBrowserRouter([
               { path: 'yonetim/duyurular', element: <AnnouncementsAdminPage /> },
               { path: 'yonetim/sinavlar', element: <AdminExamsPage /> },
               { path: 'yonetim/sinavlar/:examId', element: <ExamEditorPage /> },
+              { path: 'yonetim/odevler', element: <AdminAssignmentsPage /> },
+              { path: 'yonetim/odevler/:assignmentId', element: <AssignmentEditorPage /> },
               { path: 'yonetim/soru-bankasi', element: <QuestionBanksPage /> },
               { path: 'yonetim/soru-bankasi/:bankId', element: <QuestionBankDetailPage /> },
               {

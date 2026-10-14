@@ -164,6 +164,43 @@ Not: `progress` yalnızca `PUBLISHED` dersler üzerinden hesaplanır; tamamlanan
 Not: `nextLesson` = modüller `order` artan, dersler `order` artan sırayla, kullanıcının henüz tamamlamadığı (`LessonProgress` kaydı olmayan) ilk `PUBLISHED` ders; kursta yayınlanmış ders yoksa veya hepsi tamamlandıysa `null`. `moduleCount` = en az bir `PUBLISHED` dersi olan modül sayısı (boş/yalnızca taslak modüller sayılmaz).
 Not: Sıralama: önce `percent` 1..99 olan kurslar (yüksek yüzde önce), sonra `percent` 0, en son `percent` 100; eşitlikte başlığa göre (tr) artan.
 
+### GET /api/v1/users/me/upcoming-tasks?days=7&limit=5
+Header: `Authorization: Bearer <token>`
+Dashboard "Yaklaşan Görevler" paneli için ödev + sınav birleşik listesi (FR-12). `days`: 1–90,
+varsayılan 7. `limit`: 1–20, varsayılan 5.
+
+Dahil edilenler: kullanıcının kayıtlı olduğu kursların `PUBLISHED` ödevlerinden kendisinin henüz
+teslim etmediği ve `dueAt` pencere içinde olanlar (süresi geçmiş ama `allowLateSubmission=true`
+olanlar da dahil; `allowLateSubmission=false` ve süresi geçmişse hariç) + `exams/my` ile aynı
+görünürlükteki sınavlardan `OPEN` olanlar (koşulsuz) ve `UPCOMING` olup `startsAt` pencere içinde
+olanlar. Sıra: "etkin tarih" (ödevde `dueAt`, sınavda `startsAt ?? endsAt ?? şimdi`) artan;
+eşitlikte ödev sınavdan önce. `limit` uygulanır; `totalCount` limitten bağımsız tam eşleşme sayısıdır.
+
+200:
+```json
+{
+  "tasks": [
+    {
+      "kind": "ASSIGNMENT",
+      "id": "string", "title": "string", "description": "string|null",
+      "course": { "id": "string", "title": "string" },
+      "dueAt": "ISO", "assignmentType": "HOMEWORK", "isPastDue": false, "allowLateSubmission": true
+    },
+    {
+      "kind": "EXAM",
+      "id": "string", "title": "string", "description": "string|null",
+      "course": { "id": "string", "title": "string" },
+      "startsAt": "ISO|null", "endsAt": "ISO|null", "durationMinutes": 45,
+      "availability": "UPCOMING", "questionCount": 25
+    }
+  ],
+  "totalCount": 2,
+  "serverTime": "ISO"
+}
+```
+Bu uç nokta **sunum alanları döndürmez** (`tagLabel`/`tagTone`/`dueLabel` yok) — ham veridir, istemci
+sunuma çevirir. 400: `VALIDATION_ERROR` (geçersiz `days`/`limit`) · 401: `UNAUTHORIZED`
+
 ## Admin Users (Kullanıcı yönetimi)
 
 Tüm uç noktalar yalnızca ADMIN içindir (aksi halde 403 `FORBIDDEN`). Kullanıcılar silinmez; devre dışı bırakılır (`disabledAt`), böylece kayıt, not ve geri bildirim geçmişi korunur.
@@ -371,7 +408,6 @@ Body (kısmi): `{ "liked"?: boolean, "rating"?: integer 1..5 | null }`
 200: yukarıdaki yanıt (yeniden hesaplanmış)
 400/401/403/404: yukarıdaki hata biçimleriyle
 
-<<<<<<< HEAD
 ## Lesson Comments (Ders yorumları)
 
 Saklama: `LessonComment` tablosu. Tek seviye threaded: `parentId` doluysa bu bir yanıttır; bir yanıta tekrar yanıt verilemez (API katmanında zorlanır, DB constraint yok — SQLite). Düzenleme, silme ve eğitmen moderasyonu bu turda yok. Yalnızca YAYINLANMIŞ dersler için geçerlidir; yok veya taslak ders 404 döner. Yetki (okuma + yazma): dersin kursuna kayıtlı kullanıcılar VEYA ADMIN / kursa atanmış INSTRUCTOR.
@@ -412,7 +448,7 @@ Body: `{ "body": string, "parentId"?: string }`
 { "comment": { "id": "...", "body": "...", "author": {}, "createdAt": "...", "parentId": "string|null" } }
 ```
 400/401/403/404: yukarıdaki hata biçimleriyle; kontrol sırası 401 → 404 (ders) → 403 (yetki) → 400 (body) → parentId lookup (404) → parentId kuralları (400).
-=======
+
 ## Course Comments (Kurs yorumları)
 
 Saklama: `CourseComment` tablosu (kurs, kullanıcı, `body` düz metin). Kurs veya kullanıcı silinirse yorumlar da silinir. Taslak kurs yalnızca ADMIN / kursa atanmış INSTRUCTOR için görünür; diğerleri için `404 COURSE_NOT_FOUND`.
@@ -465,7 +501,6 @@ Body: `{ "body": string }` — kırpılır, 1–1000 karakter; aksi halde 400 `V
 ### DELETE /api/v1/courses/:courseId/comments/:commentId/reply
 Aynı yetki. 200: `{ "comment": <yorum, reply=null> }`
 404: `{ "error": { "code": "REPLY_NOT_FOUND", "message": "Yanıt bulunamadı." } }` (ayrıca `COMMENT_NOT_FOUND`); 403 `FORBIDDEN`
->>>>>>> 1ff72456bd5654acaff157bc08321acd20225bf1
 
 ## Calendar (Akademik takvim)
 
@@ -657,6 +692,26 @@ Body: POST alanlarının kısmi hali (en az biri); birleşik sonuç POST kuralla
 ### DELETE /api/v1/questions/:id
 200: `{ "deleted": true }` · 409 `QUESTION_IN_USE`: soru bir sınavda kullanılıyorsa (önce sınavdan çıkarılmalı).
 
+## Uploads (Dosya Yükleme)
+
+Genel amaçlı dosya yükleme uç noktası (NFR-72): dosyalar veritabanı dışında, yerel dosya sisteminde
+(`server/uploads/`) saklanır; DB yalnızca döndürülen `url` meta verisini tutar (ör. ödev eki/teslimi
+alanlarında). `multipart/form-data`, alan adı `file`.
+
+### POST /api/v1/uploads
+Header: `Authorization: Bearer <token>` (giriş yapmış herhangi bir rol)
+Body: `multipart/form-data`, tek dosya, alan adı `file`.
+- Boyut sınırı 10 MB; aşılırsa 400 `FILE_TOO_LARGE`.
+- İzin verilen uzantılar: `pdf, doc, docx, xls, xlsx, ppt, pptx, zip, rar, txt, png, jpg, jpeg`;
+  aksi halde 400 `INVALID_FILE_TYPE`.
+- `file` alanı eksikse 400 `VALIDATION_ERROR`.
+- Dosya adı çakışmasını önlemek için sunucuda `"<uuid>-<temizlenmiş-ad>"` olarak saklanır.
+200: `{ "file": { "url": "/uploads/assignments/<uuid>-<ad>.pdf", "name": "<orijinal ad>.pdf", "size": 12345 } }`
+401: `{ "error": { "code": "UNAUTHORIZED", "message": "Giriş yapmanız gerekiyor." } }`
+
+Dönen `url`, `GET <url>` ile doğrudan (kimlik doğrulama gerekmeden) indirilebilir —
+`server/uploads/` klasörü `/uploads/` altında statik olarak sunulur.
+
 ## Exams (Sınavlar)
 
 Her sınav bir kursa aittir ve kursu sonradan değiştirilemez. Yönetim uç noktaları ADMIN veya INSTRUCTOR rolü ister; ayrıca kursu yönetme yetkisi (ADMIN veya kursa atanmış eğitmen) gerekir, yoksa 403.
@@ -726,3 +781,106 @@ Body: `{ "questionIds": string[] }`: sınavdaki soruların tamamı, her biri bir
 ### PUT /api/v1/exams/:id/candidates
 Body: `{ "userIds": string[] }`: seçili öğrenci listesini tümüyle değiştirir; hepsi kursa kayıtlı olmalıdır (aksi 400).
 200: GET ile aynı · 409 `EXAM_NOT_PUBLISHABLE` (yayındaki `SELECTED` sınavda boş liste)
+
+## Assignments (Ödevler)
+
+Eğitmen tanımlı ödev/laboratuvar/proje görevi (FR-60). Her ödev bir kursa aittir ve kursu sonradan
+değiştirilemez. Yönetim uç noktaları ADMIN veya INSTRUCTOR rolü ister; ayrıca kursu yönetme yetkisi
+(ADMIN veya kursa atanmış eğitmen) gerekir, yoksa 403. "Sınav" tipi görevler bu kapsamda **değildir**
+— bkz. "Exams" bölümü; bu bölüm yalnızca eğitmenin ayrıca tanımladığı ödev/laboratuvar/proje teslimlerini
+kapsar.
+
+Ayarlar:
+
+| alan | tip | kural / varsayılan |
+|---|---|---|
+| `title` | string | 1–200, zorunlu |
+| `description` | string or null | ≤ 5000 |
+| `type` | `HOMEWORK` / `LAB` / `PROJECT` | `HOMEWORK` |
+| `status` | `DRAFT` / `PUBLISHED` | `DRAFT`; oluşturmada her zaman `DRAFT` |
+| `dueAt` | ofsetli ISO tarih-saat | zorunlu |
+| `availableFrom` | ofsetli ISO tarih-saat or null | `dueAt`'ten önce olmalı |
+| `allowLateSubmission` | boolean | `true` |
+| `latePenaltyPercent` | int or null | 0–100 |
+| `maxScore` | int | 1–1000, varsayılan 100 |
+| `attachmentUrl`, `attachmentName` | string or null | eğitmenin ek dosyası (bkz. Uploads) |
+| `acceptedFileTypes` | string[] | küçük harfe çevrilir, tekrarlar ayıklanır, öğe başına ≤ 20, en fazla 30 öğe; boş = kısıtlama yok |
+
+Yönetim ödev nesnesi: tüm ayarlar + `{ "id", "course": { "id", "title" }, "submissionCount", "createdBy": { "id", "name" } | null, "createdAt", "updatedAt" }`.
+
+### POST /api/v1/courses/:courseId/assignments (rol: ADMIN, INSTRUCTOR; yetki: ADMIN veya kursa atanmış INSTRUCTOR)
+Body: ayarlar (yukarıdaki tablo) → 201: `{ "assignment": <ödev> }` · 400 `VALIDATION_ERROR` · 403 `FORBIDDEN` · 404 `NOT_FOUND` (kurs yok)
+
+### GET /api/v1/assignments/manage?courseId=&status= (rol: ADMIN, INSTRUCTOR)
+200: `{ "assignments": [ <ödev>, ... ] }` (yönetilebilen ödevler, `updatedAt` azalan)
+
+### GET /api/v1/assignments/:id (yetki: ADMIN veya kursa atanmış INSTRUCTOR)
+Kursa kayıtlı **her** öğrenci için bir teslim satırı döner (teslim etmemişse ilgili alanlar `null`).
+200:
+```json
+{
+  "assignment": { ... },
+  "submissions": [
+    {
+      "student": { "id", "name", "email", "avatarUrl" },
+      "note": "string|null",
+      "fileUrl": "string|null",
+      "fileName": "string|null",
+      "submittedAt": "ISO|null",
+      "isLate": false,
+      "score": null,
+      "feedback": null,
+      "gradedAt": null
+    }
+  ]
+}
+```
+Satırlar öğrenci adına göre (tr) artan sıralıdır. 404: `{ "error": { "code": "NOT_FOUND", "message": "Ödev bulunamadı." } }`
+
+### PATCH /api/v1/assignments/:id (yetki: ADMIN veya kursa atanmış INSTRUCTOR)
+Body: ayarların kısmi hali (en az bir alan; gönderilmeyenler korunur). Farklı `courseId` → 400.
+200: `{ "assignment": <ödev> }` · 400/403/404: yukarıdaki biçimlerle
+
+### DELETE /api/v1/assignments/:id (yetki: ADMIN veya kursa atanmış INSTRUCTOR)
+Teslimleriyle birlikte (cascade) siler. 200: `{ "deleted": true }`
+
+### PUT /api/v1/assignments/:id/submissions/:userId/grade (yetki: ADMIN veya kursa atanmış INSTRUCTOR)
+Body: `{ "score": "0 ile ödevin maxScore'u arasında tam sayı, zorunlu", "feedback"?: string|null (≤ 5000) }`
+Teslim yoksa (öğrenci hiç teslim etmemiş) 400 `SUBMISSION_NOT_FOUND`.
+200: `{ "submission": { "userId", "note", "fileUrl", "fileName", "submittedAt", "isLate", "score", "feedback", "gradedAt" } }`
+400/403/404: yukarıdaki biçimlerle
+
+### GET /api/v1/assignments/my (giriş yapmış herhangi bir rol)
+Kayıtlı olduğu kursların `PUBLISHED` ödevleri, kendi teslim durumuyla birlikte.
+`status` (türetilir, FR-66): `PENDING` (teslim yok, hâlâ alınabilir) / `LATE` (teslim yok, süre geçti
+ve geç teslime kapalı) / `SUBMITTED` (teslim var, notlandırılmadı) / `GRADED` (teslim var ve notlandırıldı).
+200:
+```json
+{
+  "assignments": [
+    {
+      "id": "string", "course": { "id", "title" }, "title": "string", "description": "string|null",
+      "type": "HOMEWORK", "dueAt": "ISO", "allowLateSubmission": true, "maxScore": 100,
+      "attachmentUrl": null, "attachmentName": null, "acceptedFileTypes": ["pdf"],
+      "status": "PENDING",
+      "mySubmission": { "note": "string|null", "fileUrl": "string|null", "fileName": "string|null", "submittedAt": "ISO", "isLate": false, "score": null, "feedback": null } 
+    }
+  ],
+  "serverTime": "ISO"
+}
+```
+Sıra: `PENDING`/`LATE` önce (`dueAt` artan), sonra `SUBMITTED`/`GRADED` (`dueAt` azalan).
+401: `{ "error": { "code": "UNAUTHORIZED", "message": "Giriş yapmanız gerekiyor." } }`
+
+### POST /api/v1/assignments/:id/submission (giriş yapmış herhangi bir rol; kursa kayıtlı olmak şart)
+Body: `{ "note"?: string (≤ 5000), "fileUrl"?: string, "fileName"?: string }` — `note` veya `fileUrl`'den en az biri zorunlu.
+Var olan teslim varsa üzerine yazılır (yeniden teslim = güncelleme; önceki `score`/`feedback` sıfırlanır).
+`isLate`, teslim anında `dueAt`'e göre hesaplanıp dondurulur.
+200: `{ "submission": { "note", "fileUrl", "fileName", "submittedAt", "isLate", "score", "feedback" } }`
+400: `VALIDATION_ERROR` · `INVALID_FILE_TYPE` (dosya uzantısı `acceptedFileTypes` ile uyuşmuyor)
+403: `NOT_ENROLLED` (kursa kayıtlı değil) · `NOT_AVAILABLE_YET` (`availableFrom` henüz gelmedi) · `SUBMISSION_CLOSED` (süre geçti, geç teslime kapalı)
+404: `{ "error": { "code": "NOT_FOUND", "message": "Ödev bulunamadı." } }` (ödev yok veya taslak)
+
+### DELETE /api/v1/assignments/:id/submission (giriş yapmış herhangi bir rol)
+Öğrenci kendi teslimini geri çeker. Yalnızca henüz notlandırılmamışsa izinlidir; idempotent (teslim yoksa da 200).
+200: `{ "deleted": true }` · 409 `{ "error": { "code": "ALREADY_GRADED", "message": "Notlandırılmış bir teslim silinemez." } }`

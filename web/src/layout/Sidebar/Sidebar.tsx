@@ -5,6 +5,7 @@ import { useNavItems } from '../../data/useNavItems';
 import {
   ADMIN_MENU_MANAGEMENT_ITEM,
   ANNOUNCEMENT_MANAGEMENT_ITEM,
+  ASSIGNMENT_MANAGEMENT_ITEM,
   CALENDAR_MANAGEMENT_ITEM,
   EXAM_MANAGEMENT_ITEM,
   FALLBACK_NAV_ITEMS,
@@ -25,7 +26,13 @@ export function Sidebar({ user, isOpen, onNavigate }: SidebarProps) {
   const baseItems = loading || items.length === 0 ? FALLBACK_NAV_ITEMS : items;
   const isStaff = user?.role === 'ADMIN' || user?.role === 'INSTRUCTOR';
   const staffItems = isStaff
-    ? [CALENDAR_MANAGEMENT_ITEM, ANNOUNCEMENT_MANAGEMENT_ITEM, EXAM_MANAGEMENT_ITEM, QUESTION_BANK_ITEM].filter(
+    ? [
+        CALENDAR_MANAGEMENT_ITEM,
+        ANNOUNCEMENT_MANAGEMENT_ITEM,
+        EXAM_MANAGEMENT_ITEM,
+        ASSIGNMENT_MANAGEMENT_ITEM,
+        QUESTION_BANK_ITEM,
+      ].filter(
         (extra) => !baseItems.some((item) => item.path === extra.path),
       )
     : [];

@@ -1,0 +1,91 @@
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.student {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.studentInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.wrap {
+  overflow-wrap: anywhere;
+}
+
+.note {
+  padding: var(--space-md);
+  background-color: var(--color-surface-container-low);
+  border-radius: var(--radius-default);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.gradeForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.scoreField {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.input {
+  width: 5rem;
+  font: inherit;
+  text-align: right;
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-default);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.textarea {
+  font: inherit;
+  width: 100%;
+  min-height: 4rem;
+  color: var(--color-on-surface);
+  background-color: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-default);
+  padding: var(--space-sm) var(--space-md);
+  resize: vertical;
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.error {
+  margin-top: var(--space-xs);
+}

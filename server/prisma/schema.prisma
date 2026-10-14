@@ -36,18 +36,18 @@ model User {
   quizGradesReceived QuizGrade[] @relation("QuizGradesReceived")
   quizGradesGiven    QuizGrade[] @relation("QuizGradesGiven")
   lessonFeedback LessonFeedback[]
-<<<<<<< HEAD
   lessonComments LessonComment[]
-=======
   courseComments CourseComment[] @relation("CourseCommentAuthor")
   courseCommentReplies CourseComment[] @relation("CourseCommentReplies")
->>>>>>> 1ff72456bd5654acaff157bc08321acd20225bf1
   calendarEventsCreated CalendarEvent[] @relation("CalendarEventsCreated")
   announcementsAuthored Announcement[] @relation("AnnouncementsAuthored")
   questionBanksCreated QuestionBank[] @relation("QuestionBanksCreated")
   questionsCreated     Question[]     @relation("QuestionsCreated")
   examsCreated         Exam[]         @relation("ExamsCreated")
   examCandidacies      ExamCandidate[]
+  assignmentsCreated   Assignment[]            @relation("AssignmentsCreated")
+  assignmentSubmissions AssignmentSubmission[]  @relation("AssignmentSubmissions")
+  assignmentSubmissionsGraded AssignmentSubmission[] @relation("AssignmentSubmissionsGraded")
 }
 
 model Course {
@@ -68,6 +68,7 @@ model Course {
   questionBanks QuestionBank[]
   exams         Exam[]
   comments      CourseComment[]
+  assignments   Assignment[]
 }
 
 model Module {
@@ -113,7 +114,6 @@ model LessonFeedback {
   @@index([lessonId])
 }
 
-<<<<<<< HEAD
 /// Ders yorumu. Tek seviye threaded: parentId doluysa bu bir yanıttır ve parent'ın
 /// kendisi bir yanıt OLAMAZ (API katmanında zorlanır, DB constraint yok — SQLite).
 /// Düzenleme/silme bu turda yok; updatedAt yine de eklenir (gelecekte düzenleme için).
@@ -132,7 +132,8 @@ model LessonComment {
 
   @@index([lessonId, createdAt])
   @@index([parentId])
-=======
+}
+
 model CourseComment {
   id        String   @id @default(cuid())
   courseId  String
@@ -150,7 +151,6 @@ model CourseComment {
   updatedAt DateTime @updatedAt
 
   @@index([courseId, createdAt])
->>>>>>> 1ff72456bd5654acaff157bc08321acd20225bf1
 }
 
 model LessonProgress {
@@ -182,6 +182,7 @@ model Enrollment {
   user       User     @relation(fields: [userId], references: [id])
   courseId   String
   course     Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  /// Allowed literals: "OPEN" | "INVITE_CODE" | "ADMIN_ASSIGNED"
   method     String
   enrolledAt DateTime @default(now())
 
@@ -400,5 +401,66 @@ model ExamCandidate {
   createdAt DateTime @default(now())
 
   @@unique([examId, userId])
+  @@index([userId])
+}
+
+/// Eğitmen tanımlı ödev/laboratuvar/proje görevi (FR-60). Her ödev bir kursa aittir.
+model Assignment {
+  id                  String                 @id @default(cuid())
+  courseId            String
+  course              Course                 @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title               String
+  description         String?
+  /// Allowed literals: "HOMEWORK" | "LAB" | "PROJECT"
+  type                String                 @default("HOMEWORK")
+  /// Allowed literals: "DRAFT" | "PUBLISHED"
+  status              String                 @default("DRAFT")
+  /// Teslim son tarihi (UTC).
+  dueAt               DateTime
+  /// Doluysa bu andan önce teslim kabul edilmez; boşsa hemen açıktır.
+  availableFrom       DateTime?
+  allowLateSubmission Boolean                @default(true)
+  /// 0-100: geç teslimde puandan düşülecek yüzde. allowLateSubmission=false ise anlamsızdır.
+  latePenaltyPercent  Int?
+  maxScore            Int                    @default(100)
+  /// Eğitmenin ödev eki (Faz 2 dosya yükleme altyapısıyla doldurulur).
+  attachmentUrl       String?
+  attachmentName      String?
+  /// CSV, örn. "pdf,docx,zip"; boşsa kısıtlama yok.
+  acceptedFileTypes   String                 @default("")
+  createdById         String?
+  createdBy           User?                  @relation("AssignmentsCreated", fields: [createdById], references: [id], onDelete: SetNull)
+  submissions         AssignmentSubmission[]
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+
+  @@index([courseId])
+  @@index([status, dueAt])
+}
+
+/// Öğrencinin bir ödeve tek teslimi (yeniden teslim üzerine yazar — QuizGrade ile aynı desen).
+model AssignmentSubmission {
+  id           String     @id @default(cuid())
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User       @relation("AssignmentSubmissions", fields: [userId], references: [id], onDelete: Cascade)
+  /// Metin teslimi (FR-61 "metin girerek").
+  note         String?
+  /// Dosya teslimi (Faz 2 altyapısıyla doldurulur).
+  fileUrl      String?
+  fileName     String?
+  submittedAt  DateTime   @default(now())
+  /// Teslim anında dueAt'e göre hesaplanıp dondurulur.
+  isLate       Boolean    @default(false)
+  /// 0-100; notlandırılmadıysa null.
+  score        Int?
+  feedback     String?
+  gradedAt     DateTime?
+  gradedById   String?
+  gradedBy     User?      @relation("AssignmentSubmissionsGraded", fields: [gradedById], references: [id], onDelete: SetNull)
+
+  @@unique([assignmentId, userId])
+  @@index([assignmentId])
   @@index([userId])
 }

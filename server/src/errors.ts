@@ -12,13 +12,14 @@ export class AppError extends Error {
 
 export function errorHandler(
   error: FastifyError | AppError,
-  _request: FastifyRequest,
+  request: FastifyRequest,
   reply: FastifyReply,
 ) {
   if (error instanceof AppError) {
     reply.status(error.statusCode).send({ error: { code: error.code, message: error.message } });
     return;
   }
+  request.log.error({ err: error }, 'unhandled error');
   reply
     .status(500)
     .send({ error: { code: 'INTERNAL_ERROR', message: 'Beklenmeyen bir hata oluştu.' } });

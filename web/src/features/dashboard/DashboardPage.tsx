@@ -6,6 +6,8 @@ import { useStudyActivity } from './useStudyActivity';
 import { useMyGrades } from './useMyGrades';
 import { useAnnouncements } from '../announcements/useAnnouncements';
 import { formatRelative, sourceLabel } from '../announcements/announcementMeta';
+import { useUpcomingTasks } from '../../data/useUpcomingTasks';
+import { toUpcomingTask } from './components/upcomingTaskMeta';
 import type { Announcement, AnnouncementItem, GradeSummary, KpiMetric } from '../../types';
 import {
   AiGuideCard,
@@ -63,6 +65,7 @@ export function DashboardPage() {
   const study = useStudyActivity();
   const myGrades = useMyGrades();
   const feed = useAnnouncements({ limit: 3 });
+  const upcoming = useUpcomingTasks();
   const greeting = user ? `Hoş geldin, ${user.name} 👋` : 'Hoş geldin 👋';
   const studyReady = !study.loading && !study.error;
   const coursesReady = !coursesLoading && !coursesError;
@@ -137,7 +140,11 @@ export function DashboardPage() {
         </div>
 
         <div className={styles.secondary}>
-          <UpcomingTasks tasks={data.upcomingTasks} />
+          <UpcomingTasks
+            tasks={upcoming.tasks.map((task) => toUpcomingTask(task))}
+            loading={upcoming.loading}
+            error={upcoming.error}
+          />
           <AiGuideCard guide={data.aiGuide} />
           <AnnouncementsFeed announcements={feed.announcements.map(toFeedItem)} />
         </div>

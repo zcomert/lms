@@ -61,3 +61,10 @@ export const QUESTION_BANK_ITEM: NavItem = {
   label: 'Soru Bankası',
   icon: 'library_books',
 };
+
+/** ADMIN ve INSTRUCTOR icin odev yonetimi; DB'de ayni yol varsa tekrar eklenmez. */
+export const ASSIGNMENT_MANAGEMENT_ITEM: NavItem = {
+  path: '/yonetim/odevler',
+  label: 'Ödev Yönetimi',
+  icon: 'assignment_turned_in',
+};

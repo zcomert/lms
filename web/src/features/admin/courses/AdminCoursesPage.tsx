@@ -123,7 +123,9 @@ export function AdminCoursesPage() {
                     <IconButton icon="group" label="Kayıtlı Öğrenciler" />
                   </Link>
                   <Link to={`/yonetim/kurslar/${course.id}/icerik`}>
-                    <IconButton icon="list_alt" label="İçerik Yönetimi" />
+                    <Button variant="secondary" size="sm" iconStart="list_alt">
+                      Ders Ekle
+                    </Button>
                   </Link>
                   <IconButton
                     icon="edit"

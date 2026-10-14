@@ -5,12 +5,8 @@ import { AppError } from '../errors.js';
 import { toPercent } from '../lib/progress.js';
 import { instructorsInclude, toPublicInstructors } from '../lib/courseAccess.js';
 
-interface EnrollBody {
-  method: 'OPEN' | 'INVITE_CODE' | 'ADMIN_ASSIGNED';
-}
-
 export function registerEnrollmentRoutes(app: FastifyInstance) {
-  app.post<{ Params: { courseId: string }; Body: EnrollBody }>(
+  app.post<{ Params: { courseId: string }; Body: unknown }>(
     '/api/v1/courses/:courseId/enroll',
     { preHandler: [requireAuth] },
     async (request, reply) => {
@@ -18,14 +14,17 @@ export function registerEnrollmentRoutes(app: FastifyInstance) {
       if (!course || course.status !== 'PUBLISHED') {
         throw new AppError('NOT_FOUND', 'Kurs bulunamadı.', 404);
       }
+
       const existing = await prisma.enrollment.findUnique({
         where: { userId_courseId: { userId: request.user!.userId, courseId: course.id } },
       });
       if (existing) {
         throw new AppError('ALREADY_ENROLLED', 'Bu kursa zaten kayıtlısınız.', 409);
       }
+      // `method` istemciden gelse de güvenilmez: kendi kendine kayıt her zaman "OPEN" yazılır.
+      // "ADMIN_ASSIGNED" yalnızca yönetim uç noktasına aittir.
       const enrollment = await prisma.enrollment.create({
-        data: { userId: request.user!.userId, courseId: course.id, method: request.body.method },
+        data: { userId: request.user!.userId, courseId: course.id, method: 'OPEN' },
       });
       reply.status(201);
       return {

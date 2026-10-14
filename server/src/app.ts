@@ -1,6 +1,10 @@
+import { mkdir } from 'node:fs/promises';
 import Fastify, { type FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
+import multipart from '@fastify/multipart';
+import fastifyStatic from '@fastify/static';
 import { errorHandler } from './errors.js';
+import { registerUploadRoutes, UPLOADS_ROOT } from './routes/uploads.js';
 import { registerAuthRoutes } from './routes/auth.js';
 import { registerCourseRoutes } from './routes/courses.js';
 import { registerCourseInstructorRoutes } from './routes/courseInstructors.js';
@@ -11,15 +15,13 @@ import { registerProgressRoutes } from './routes/progress.js';
 import { registerActivityRoutes } from './routes/activity.js';
 import { registerGradeRoutes } from './routes/grades.js';
 import { registerFeedbackRoutes } from './routes/feedback.js';
-<<<<<<< HEAD
 import { registerCommentRoutes } from './routes/comments.js';
-=======
 import { registerCourseCommentRoutes } from './routes/courseComments.js';
->>>>>>> 1ff72456bd5654acaff157bc08321acd20225bf1
 import { registerCalendarRoutes } from './routes/calendar.js';
 import { registerAnnouncementRoutes } from './routes/announcements.js';
 import { registerQuestionBankRoutes } from './routes/questionBanks.js';
 import { registerExamRoutes } from './routes/exams.js';
+import { registerAssignmentRoutes } from './routes/assignments.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerAdminUserRoutes } from './routes/adminUsers.js';
 import { registerNavItemRoutes } from './routes/nav-items.js';
@@ -43,8 +45,12 @@ export async function buildApp(): Promise<FastifyInstance> {
   });
 
   await app.register(cors, { origin: process.env.CORS_ORIGIN ?? 'http://localhost:5173' });
+  await app.register(multipart);
+  await mkdir(UPLOADS_ROOT, { recursive: true });
+  await app.register(fastifyStatic, { root: UPLOADS_ROOT, prefix: '/uploads/', decorateReply: false });
 
   app.get('/api/v1/health', async () => ({ status: 'ok' }));
+  registerUploadRoutes(app);
   registerAuthRoutes(app);
   registerCourseRoutes(app);
   registerCourseInstructorRoutes(app);
@@ -55,15 +61,13 @@ export async function buildApp(): Promise<FastifyInstance> {
   registerActivityRoutes(app);
   registerGradeRoutes(app);
   registerFeedbackRoutes(app);
-<<<<<<< HEAD
   registerCommentRoutes(app);
-=======
   registerCourseCommentRoutes(app);
->>>>>>> 1ff72456bd5654acaff157bc08321acd20225bf1
   registerCalendarRoutes(app);
   registerAnnouncementRoutes(app);
   registerQuestionBankRoutes(app);
   registerExamRoutes(app);
+  registerAssignmentRoutes(app);
   registerUserRoutes(app);
   registerAdminUserRoutes(app);
   registerNavItemRoutes(app);
