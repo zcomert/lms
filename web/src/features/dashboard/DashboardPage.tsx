@@ -13,6 +13,7 @@ import {
   ContinueLearningCard,
   EnrolledCourses,
   KpiGrid,
+  UpcomingAlerts,
   UpcomingTasks,
   WeeklyActivityChart,
   WelcomeBanner,
@@ -120,6 +121,8 @@ export function DashboardPage() {
 
   return (
     <PageContainer>
+      <UpcomingAlerts />
+
       <WelcomeBanner
         greeting={greeting}
         summary={data.weeklyGoalSummary}

@@ -36,6 +36,7 @@ model User {
   quizGradesReceived QuizGrade[] @relation("QuizGradesReceived")
   quizGradesGiven    QuizGrade[] @relation("QuizGradesGiven")
   lessonFeedback LessonFeedback[]
+  lessonComments LessonComment[]
   calendarEventsCreated CalendarEvent[] @relation("CalendarEventsCreated")
   announcementsAuthored Announcement[] @relation("AnnouncementsAuthored")
   questionBanksCreated QuestionBank[] @relation("QuestionBanksCreated")
@@ -86,6 +87,7 @@ model Lesson {
   lessonProgress LessonProgress[]
   quizGrades  QuizGrade[]
   lessonFeedback LessonFeedback[]
+  lessonComments LessonComment[]
 }
 
 /// Ders başına kullanıcı geri bildirimi: beğeni ve/veya 1–5 puan. İkisi de boşsa satır tutulmaz.
@@ -353,4 +355,24 @@ model ExamCandidate {
 
   @@unique([examId, userId])
   @@index([userId])
+}
+
+/// Ders altındaki tartışma yorumları. Tek kademe iç içe: cevaplar her zaman bir kök yoruma bağlanır.
+model LessonComment {
+  id        String    @id @default(cuid())
+  lessonId  String
+  lesson    Lesson    @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Kök yorumlarda null. Dolu olduğunda cevaptır; derinlik API katmanında tek kademeye zorlanır.
+  parentId  String?
+  parent    LessonComment?  @relation("LessonCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   LessonComment[] @relation("LessonCommentReplies")
+  body      String
+  /// Yorum düzenlendiyse son düzenleme zamanı, aksi halde null.
+  editedAt  DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([lessonId, createdAt])
+  @@index([parentId])
 }

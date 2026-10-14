@@ -8,3 +8,4 @@ export { StreakWidget } from './StreakWidget';
 export { UpcomingTasks } from './UpcomingTasks';
 export { WeeklyActivityChart } from './WeeklyActivityChart';
 export { WelcomeBanner } from './WelcomeBanner';
+export { UpcomingAlerts } from './UpcomingAlerts';
