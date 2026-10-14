@@ -244,21 +244,22 @@ export interface LessonFeedback {
   mine: MyLessonFeedback;
 }
 
-export interface LessonCommentAuthor {
-  id: string;
-  name: string;
-  avatarUrl: string | null;
-}
-
-export interface LessonCommentReply {
+export interface CourseComment {
   id: string;
   body: string;
-  author: LessonCommentAuthor;
   createdAt: string;
+  updatedAt: string;
+  author: { id: string; name: string; avatarUrl: string | null };
+  canDelete: boolean;
+  reply: CourseCommentReply | null;
+  canReply: boolean;
+  canDeleteReply: boolean;
 }
 
-export interface LessonComment extends LessonCommentReply {
-  replies: LessonCommentReply[];
+export interface CourseCommentReply {
+  body: string;
+  createdAt: string;
+  author: { id: string; name: string; avatarUrl: string | null };
 }
 
 /** Takvim etkinliği türü; renk ve simge bu türe göre seçilir. */
