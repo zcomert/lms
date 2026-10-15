@@ -25,6 +25,7 @@ import { registerAssignmentRoutes } from './routes/assignments.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerAdminUserRoutes } from './routes/adminUsers.js';
 import { registerNavItemRoutes } from './routes/nav-items.js';
+import { registerClassifyRoutes } from './routes/classify.js';
 import { createLogStream } from './lib/logStream.js';
 
 export async function buildApp(): Promise<FastifyInstance> {
@@ -72,6 +73,7 @@ export async function buildApp(): Promise<FastifyInstance> {
   registerUserRoutes(app);
   registerAdminUserRoutes(app);
   registerNavItemRoutes(app);
+  registerClassifyRoutes(app);
 
   await app.ready();
   return app;
