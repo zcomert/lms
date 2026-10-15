@@ -57,6 +57,10 @@
   margin-left: var(--space-xl);
 }
 
+.textareaWrapper {
+  position: relative;
+}
+
 .textarea {
   width: 100%;
   resize: vertical;
@@ -66,12 +70,64 @@
   background: var(--color-surface);
   color: var(--color-on-surface);
   padding: var(--space-sm);
+  padding-right: calc(var(--space-sm) + 2.25rem);
   font: inherit;
 }
 
 .textarea:focus-visible {
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
+}
+
+.sentimentBadge {
+  position: absolute;
+  top: calc(-1 * var(--space-sm));
+  right: var(--space-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  color: var(--color-on-surface-variant);
+  box-shadow: var(--elevation-chrome);
+  animation: sentiment-pop var(--transition-base) ease;
+}
+
+.sentimentAnalyzing {
+  color: var(--color-on-surface-variant);
+  opacity: 0.7;
+}
+
+.sentimentPositive {
+  border-color: var(--color-state-success);
+  background: var(--color-state-success-soft);
+  color: var(--color-state-success);
+}
+
+.sentimentNegative {
+  border-color: var(--color-state-error);
+  background: var(--color-state-error-soft);
+  color: var(--color-state-error);
+}
+
+@keyframes sentiment-pop {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sentimentBadge {
+    animation: none;
+  }
 }
 
 .formFooter {

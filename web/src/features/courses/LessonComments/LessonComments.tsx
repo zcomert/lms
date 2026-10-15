@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { Avatar, Button, Card, Text } from '../../../components';
+import { Avatar, Button, Card, Icon, Text } from '../../../components';
 import { useLessonComments } from '../useLessonComments';
+import { useCommentSentiment } from '../useCommentSentiment';
 import type { LessonComment, LessonCommentReply } from '../../../types';
 import styles from './LessonComments.module.css';
 
@@ -36,6 +37,7 @@ function CommentForm({
 }) {
   const [value, setValue] = useState('');
   const fieldId = `comment-textarea-${label.replace(/[^a-zA-Z0-9]+/g, '-')}`;
+  const sentiment = useCommentSentiment(value);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -45,20 +47,37 @@ function CommentForm({
     setValue('');
   };
 
+  const sentimentMeta: Record<string, { icon: string; filled: boolean; tone: string; announce: string }> = {
+    analyzing: { icon: 'sentiment_neutral', filled: false, tone: styles.sentimentAnalyzing, announce: 'Yorumunuz analiz ediliyor' },
+    pozitif: { icon: 'sentiment_very_satisfied', filled: true, tone: styles.sentimentPositive, announce: 'Yorumunuz olumlu görünüyor' },
+    negatif: { icon: 'sentiment_dissatisfied', filled: true, tone: styles.sentimentNegative, announce: 'Yorumunuz olumsuz görünüyor' },
+  };
+  const activeSentiment = sentimentMeta[sentiment];
+
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <label htmlFor={fieldId} className={styles.visuallyHidden}>
         {label}
       </label>
-      <textarea
-        id={fieldId}
-        className={styles.textarea}
-        placeholder={placeholder}
-        maxLength={MAX_LENGTH}
-        value={value}
-        disabled={posting}
-        onChange={(event) => setValue(event.target.value)}
-      />
+      <div className={styles.textareaWrapper}>
+        <textarea
+          id={fieldId}
+          className={styles.textarea}
+          placeholder={placeholder}
+          maxLength={MAX_LENGTH}
+          value={value}
+          disabled={posting}
+          onChange={(event) => setValue(event.target.value)}
+        />
+        {activeSentiment && (
+          <span className={`${styles.sentimentBadge} ${activeSentiment.tone}`}>
+            <Icon name={activeSentiment.icon} filled={activeSentiment.filled} size="lg" />
+          </span>
+        )}
+        <span className={styles.visuallyHidden} aria-live="polite">
+          {activeSentiment?.announce ?? ''}
+        </span>
+      </div>
       <div className={styles.formFooter}>
         <Text role="label-md" tone="muted" as="span">
           {value.length} / {MAX_LENGTH}
